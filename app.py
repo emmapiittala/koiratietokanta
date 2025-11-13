@@ -5,6 +5,7 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
+import dogs
 
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
+
     return render_template("index.html")
 
 
@@ -28,9 +30,7 @@ def create_register_dog():
     gender = request.form["gender"]
     user_id = session["user_id"]
 
-    sql = """INSERT INTO register_dog (dogname, breed, age, gender, user_id)
-            VALUES (?, ?, ?, ?, ?)"""
-    db.execute(sql, [dogname, breed, age, gender, user_id])
+    dogs.add_dogs(dogname, breed, age, gender, user_id)
 
     return redirect("/")
 
