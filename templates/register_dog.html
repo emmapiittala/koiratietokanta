@@ -1,33 +1,29 @@
-<!DOCTYPE html>
 <html>
 
 <head>
-  <title>Rekististeröinti</title>
+  <title>Rekisteröi Koira</title>
 </head>
 
 <body>
-    <h1>Rekisteröi koira</h1>
-  <form action="/create_register_dog" method="post">
-    <p>
-      Koiran nimi: <br />
-      <input type="text" name="dogname" />
-    </p>
-    <p>
-      Rotu: <br />
-      <input type="text" name="breed" />
-    </p>
-    <p>
-      Ikä: <br />
-      <input type="text" name="age" />
-    </p>
-    <p>
-      Sukupuoli: <br />
-     <input type="text" name="gender" />
-    </p>
+    <h1>Rekisteröi uusi koira</h1>
+    <form action="/create_register_dog" method="POST">
+        <label for="dogname">Koiran nimi:</label>
+        <input type="text" id="dogname" name="dogname" required><br><br>
 
+        <label for="breed">Rotu:</label>
+        <input type="text" id="breed" name="breed" required><br><br>
 
-    <input type="submit" value="Luo ilmoitus"/>
-  </form>
+        <label for="age">Ikä:</label>
+<input type="number" id="age" name="age" min="0" required><br><br>
+
+        <label for="gender">Sukupuoli:</label>
+        <select id="gender" name="gender" required>
+            <option value="uros">Uros</option>
+            <option value="narttu">Narttu</option>
+        </select><br><br>
+
+        <input type="submit" value="Rekisteröi koira">
+    </form>
 </body>
 
 </html>

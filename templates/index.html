@@ -19,5 +19,12 @@
   <p>
     <a href="/register_dog">Rekisteröi koira</a>
     </p>
+        <h2>Ilmoitukset</h2>
+        <ul>
+          {% for dog in dogs %}
+          <li><a href="/dogs/{{ dog.id }}">{{ dog.dogname }}</a></li>
+          {% endfor %}
+        </ul>
+
     </body>
     </html>

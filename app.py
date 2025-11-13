@@ -14,8 +14,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
+    all_dogs = dogs.get_dogs()
+    return render_template("index.html", dogs=all_dogs)
 
-    return render_template("index.html")
+@app.route("/dogs/<int:dog_id>")
+def show_dog(dog_id):
+    dog = dogs.get_dog(dog_id)
+    return render_template("show_dog.html", dog=dog)
 
 
 @app.route("/register_dog")
@@ -29,6 +34,9 @@ def create_register_dog():
     age = request.form["age"]
     gender = request.form["gender"]
     user_id = session["user_id"]
+
+    if int(age) < 0:
+        return "VIRHE: Ikä ei voi olla negatiivinen."
 
     dogs.add_dogs(dogname, breed, age, gender, user_id)
 
