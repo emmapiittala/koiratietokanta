@@ -3,28 +3,40 @@
 <head>
   <title>Koiratietokanta</title>
 </head>
-<h1>Koiratietokanta</h1>
 <body>
+<h1>Koiratietokanta</h1>
   {% if session.username %}
+ <p>
   <p>
     Olet kirjautunut nimellä {{ session.username }} id-numerosi on {{ session.user_id}}
   </p>
-  {% endif %}
   <p>
-    <a href="/login">Kirjaudu sisään</a>
-    <a href="/register">Luo tunnus</a>
-    <a href="/logout">Kirjaudu ulos</a>
+
+    <form action="/logout" method = "get">
+      <button type="submit">Kirjaudu ulos</button>
+    </form>
   </p>
 
   <p>
-    <a href="/register_dog">Rekisteröi koira</a>
+    <form action="/register_dog" method = "get">
+      <button type="submit">Rekisteröi koirasi</button>
+    </form>
     </p>
-        <h2>Ilmoitukset</h2>
+    {% else %}
+    <p>
+          <form action="/login" method = "get">
+      <button type="submit">Kirjaudu sisään</button>
+    </form>
+    <form action="/register" method = "get">
+      <button type="submit">Luo tunnus</button>
+    </form>
+  </p>
+  {% endif %}
+    <h2>Ilmoitukset</h2>
         <ul>
           {% for dog in dogs %}
           <li><a href="/dogs/{{ dog.id }}">{{ dog.dogname }}</a></li>
           {% endfor %}
-        </ul>
-
-    </body>
-    </html>
+</ul>
+</body>
+</html>

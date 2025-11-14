@@ -8,6 +8,7 @@
   {% if dog.user_id  == session.user_id %}
   <p>
     <a href="/edit_dog/{{dog.dog_id}}">Muokkaa</a>
+    <a href="/remove_dog/{{dog.dog_id}}">Poista koira</a>
   </p>
   <p>
   {% endif %}

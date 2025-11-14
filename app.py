@@ -68,6 +68,15 @@ def update_dog():
     dogs.update_dog(dog_id, dogname, breed, age, gender)
     return redirect(url_for('get_dog', dog_id=dog_id))
 
+@app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])
+def remove_dog(dog_id):
+    if request.method == "POST":
+        dogs.remove_dog(dog_id)
+        return redirect(url_for('index'))
+    else:
+        dog = dogs.get_dog(dog_id)
+        return render_template("remove_dog.html", dog = dog)
+
 @app.route("/register")
 def register():
     return render_template("register.html")

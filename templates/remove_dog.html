@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Poista koira</title>
+</head>
+<body>
+    <h1>Poista koira</h1>
+    <p>Oletko varma, että haluat poistaa koiran: {{ dog.dogname }}?</p>
+    
+    <form method="POST">
+        <input type="submit" value="Poista koira">
+    </form>
+    <form method="GET" action="{{url_for('index')}}">
+    <input type="submit" value="Peruuta">
+ </form>
+</body>
+</html>

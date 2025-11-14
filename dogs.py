@@ -27,10 +27,14 @@ def get_dog(dog_id): ##Hakee tietyn koiran tiedot
 
     return result[0] if result else None
 
-def update_dog(dog_id,dogname, breed, age, gender):
+def update_dog(dog_id,dogname, breed, age, gender): ##voi päivittää koiran tietoja/ilmoitusta.
     sql = """UPDATE register_dog SET dogname = ?,
     breed = ?,
     age = ?,
     gender = ?
     WHERE id = ?"""
     db.execute(sql, [dogname, breed, age, gender, dog_id])
+
+def remove_dog(dog_id): ##Poistaa koiran
+    sql = "DELETE FROM register_dog WHERE id = ?"
+    db.execute(sql, [dog_id])
