@@ -1,0 +1,18 @@
+<form action="/update_dog" method="POST">
+    <label for="dogname">Koiran nimi:</label>
+    <input type="text" id="dogname" name="dogname" value="{{ dog.dogname }}" required><br><br>
+
+    <label for="breed">Rotu:</label>
+    <input type="text" id="breed" name="breed" value="{{ dog.breed }}" required><br><br>
+
+    <label for="age">Ikä:</label>
+    <input type="number" id="age" name="age" value="{{ dog.age }}" min="0" required><br><br>
+
+    <label for="gender">Sukupuoli:</label>
+    <select id="gender" name="gender" required>
+        <option value="uros" {% if dog.gender == 'uros' %}selected{% endif %}>Uros</option>
+        <option value="narttu" {% if dog.gender == 'narttu' %}selected{% endif %}>Narttu</option>
+    </select><br><br>
+    <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
+    <input type="submit" value="Päivitä tiedot">
+</form>

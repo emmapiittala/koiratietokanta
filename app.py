@@ -1,6 +1,7 @@
 from flask import Flask
 import sqlite3
 from flask import Flask
+from flask import url_for
 from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
@@ -18,7 +19,7 @@ def index():
     return render_template("index.html", dogs=all_dogs)
 
 @app.route("/dogs/<int:dog_id>")
-def show_dog(dog_id):
+def get_dog(dog_id):
     dog = dogs.get_dog(dog_id)
     return render_template("show_dog.html", dog=dog)
 
@@ -42,6 +43,31 @@ def create_register_dog():
 
     return redirect("/")
 
+@app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
+def edit_dog(dog_id):
+    if request.method == 'POST':
+        dogname = request.form["dogname"]
+        breed = request.form["breed"]
+        age = request.form["age"]
+        gender = request.form["gender"]
+
+        dogs.update_dog(dog_id, dogname, breed, age, gender)
+        return redirect(url_for('get_dog', dog_id=dog_id))
+    else:
+        dog = dogs.get_dog(dog_id)
+        return render_template('edit_dog.html', dog=dog)
+
+@app.route("/update_dog", methods=["POST"])
+def update_dog():
+    dog_id = request.form["dog_id"]
+    dogname = request.form["dogname"]
+    breed = request.form["breed"]
+    age = request.form["age"]
+    gender = request.form["gender"]
+
+    dogs.update_dog(dog_id, dogname, breed, age, gender)
+    return redirect(url_for('get_dog', dog_id=dog_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -62,6 +88,7 @@ def create():
         return "VIRHE: tunnus on jo varattu"
 
     return "Tunnus luotu"
+
 @app.route("/login", methods=["GET","POST"])
 
 def login():
@@ -73,20 +100,25 @@ def login():
         password = request.form["password"]
 
     sql = "SELECT id, password_hash FROM users WHERE username = ?"
-    result = db.query(sql, [username])[0]
-    user_id = result["id"]
-    password_hash = result["password_hash"]
+    result = db.query(sql, [username])
 
+    if result:
+            user_id = result[0]["id"]
+            password_hash = result[0]["password_hash"]
 
-    if check_password_hash(password_hash, password):
-        session["user_id"] = user_id
-        session["username"] = username
-        return redirect("/")
+            if check_password_hash(password_hash, password):
+                session["user_id"] = user_id
+                session["username"] = username
+                return redirect("/")
+            else:
+                return "VIRHE: väärä tunnus tai salasana"
     else:
-        return "VIRHE: väärä tunnus tai salasana"
+        return "VIRHE: käyttäjätunnusta ei löytynyt"
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    if "user_id" in session:
+        del session["user_id"]
+    if "username" in session:
+        del session["username"]
     return redirect("/")

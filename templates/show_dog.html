@@ -5,6 +5,12 @@
 </head>
 
 <body>
+  {% if dog.user_id  == session.user_id %}
+  <p>
+    <a href="/edit_dog/{{dog.dog_id}}">Muokkaa</a>
+  </p>
+  <p>
+  {% endif %}
     <h1>{{ dog.dogname }}</h1>
     <p>Rotu: {{ dog.breed }}</p>
     <p>Ikä: {{ dog.age }}</p>
