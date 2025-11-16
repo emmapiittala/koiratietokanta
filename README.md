@@ -26,6 +26,7 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 
 
 <h1>Miten sovellusta voi käyttää?</h1>
+
 🐾 Kopioi projektin linkki oikealta ylhäältä painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta tai;
 ```bash
 git@github.com:emmapiittala/koiratietokanta.git
