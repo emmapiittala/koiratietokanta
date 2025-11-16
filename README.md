@@ -26,16 +26,24 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 Miten sovellusta voi käyttää?
 - Kopioi projektin linkki painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta 
 ```bash
-(git@github.com:emmapiittala/koiratietokanta.git)
+git@github.com:emmapiittala/koiratietokanta.git
 ```
 
 - Avaa komentorivi ja kloonaa projekti komennolla: git clone sekä perään linkki. 
-```git clone git@github.com:emmapiittala/koiratietokanta.git```
+```bash 
+git clone git@github.com:emmapiittala/koiratietokanta.git
+```
 Näin sinulle pitäisi asentua koiratietokanta-projektini. 
 
-- Mene koiratietokanta projektiin ja aktivoi virtuaaliympäristö komennolla: ```source venv/bin/activate```
+- Mene koiratietokanta projektiin ja aktivoi virtuaaliympäristö komennolla: 
+```bash
+source venv/bin/activate
+```
 
-- asenna pythoniin kirjasto: pip install flask
+- asenna pythoniin kirjasto:
+ ```bash
+pip install flask
+```
 
 - Sovelluksen saa käynnistymään kirjoittamalla komentoriville: flask run ja kopioimalla komentoriville tulevan selaimen linkin (http://127.0.0.1:5000)
 
