@@ -25,34 +25,33 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 
 
 
-Miten sovellusta voi käyttää?
-- Kopioi projektin linkki oikealta ylhäältä painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta tai;
+<h1>Miten sovellusta voi käyttää?</h1>
+🐾 Kopioi projektin linkki oikealta ylhäältä painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta tai;
 ```bash
 git@github.com:emmapiittala/koiratietokanta.git
 ```
 
-- Avaa komentorivi ja kloonaa projekti komennolla: git clone sekä perään linkki. 
+🐾 Avaa komentorivi ja kloonaa projekti komennolla: git clone sekä perään linkki. 
 Näin sinulle pitäisi asentua koiratietokanta-projektini. 
 ```bash 
 git clone git@github.com:emmapiittala/koiratietokanta.git
 ```
 
-- Mene koiratietokanta projektiin ja aktivoi virtuaaliympäristö komennolla: 
+🐾 Mene koiratietokanta projektiin ja aktivoi virtuaaliympäristö komennolla: 
 ```bash
 source venv/bin/activate
 ```
 
-- asenna pythoniin kirjasto:
+🐾 Asenna pythoniin kirjasto:
  ```bash
 pip install flask
 ```
 
-- Kirjoita komentoriville: flask run <br>
+🐾 Kirjoita komentoriville: flask run <br>
 Komentoriville pitäisi nyt ilmestyä linkki, joka on suunnilleen tämän näköinen: (http://127.0.0.1:5000). Ota linkki talteen ja siirry selaimeen. 
 ```bash
 flask run
 ```
 
-- Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
+🐾 Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia sekä ilmoituksen jättänyt pystyy poistamaan ilmoituksensa. 
 
-- Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
