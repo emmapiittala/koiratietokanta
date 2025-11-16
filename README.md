@@ -32,10 +32,10 @@ git@github.com:emmapiittala/koiratietokanta.git
 ```
 
 - Avaa komentorivi ja kloonaa projekti komennolla: git clone sekä perään linkki. 
+Näin sinulle pitäisi asentua koiratietokanta-projektini. 
 ```bash 
 git clone git@github.com:emmapiittala/koiratietokanta.git
 ```
-Näin sinulle pitäisi asentua koiratietokanta-projektini. 
 
 - Mene koiratietokanta projektiin ja aktivoi virtuaaliympäristö komennolla: 
 ```bash
@@ -47,9 +47,12 @@ source venv/bin/activate
 pip install flask
 ```
 
-- Sovelluksen saa käynnistymään kirjoittamalla komentoriville: ```bash
+- Kirjoita komentoriville: flask run 
+Komentoriville pitäisi nyt ilmestyä linkki, joka on suunnilleen tämän näköinen: (http://127.0.0.1:5000). Ota linkki talteen ja siirry selaimeen. 
+```bash
 flask run
 ```
-ja kopioimalla komentoriville tulevan selaimen linkin (http://127.0.0.1:5000)
+
+- Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
 
 - Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
