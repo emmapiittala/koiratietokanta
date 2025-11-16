@@ -48,7 +48,8 @@ pip install flask
 ```
 
 - Sovelluksen saa käynnistymään kirjoittamalla komentoriville: ```bash
-flask run```
+flask run
+```
 ja kopioimalla komentoriville tulevan selaimen linkin (http://127.0.0.1:5000)
 
 - Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
