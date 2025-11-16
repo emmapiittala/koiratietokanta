@@ -3,8 +3,17 @@
 <head>
   <title>Kirjautuminen</title>
 </head>
-
 <body>
+  <h1>Rekisteröinti</h1>
+  {% if error %}
+   <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+  {% if success %}
+   <p style="color: green;">{{ success }}</p>
+{% endif %}
+<p>
+</p>
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
@@ -25,6 +34,9 @@
     <input type="submit" value="Kirjaudu" />
   </form>
   {% endif %}
+<form action="/" method = "GET">
+    <button type="submit">Takaisin etusivulle</button>
+      </form>
 </body>
 
 </html>

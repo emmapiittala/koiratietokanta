@@ -38,3 +38,12 @@ def update_dog(dog_id,dogname, breed, age, gender): ##voi päivittää koiran ti
 def remove_dog(dog_id): ##Poistaa koiran
     sql = "DELETE FROM register_dog WHERE id = ?"
     db.execute(sql, [dog_id])
+
+def find_dog(query): ## hakusanalla voi etsiä ilmoitetuista koirista
+    sql = """SELECT rd.id, rd.dogname, u.username
+    FROM register_dog AS rd
+    JOIN users AS u ON rd.user_id = u.id
+    WHERE rd.dogname LIKE ? OR rd.gender LIKE ? OR rd.breed LIKE ? OR rd.age LIKE ? OR u.username LIKE ?
+    ORDER BY rd.id DESC"""
+    query = "%" + query + "%"
+    return db.query(sql,[query,query,query,query,query])

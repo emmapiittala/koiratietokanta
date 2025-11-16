@@ -18,6 +18,16 @@ def index():
     all_dogs = dogs.get_dogs()
     return render_template("index.html", dogs=all_dogs)
 
+@app.route("/find_dog")
+def find_dog():
+    query = request.args.get("query")
+    if query:
+        results = dogs.find_dog(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_dog.html", query =query, result=results)
+
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
     dog = dogs.get_dog(dog_id)
@@ -86,17 +96,19 @@ def create():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        return render_template("register.html", error="VIRHE: salasanat eivät ole samat")
+
     password_hash = generate_password_hash(password1)
 
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
+        return render_template("register.html", error="VIRHE: tunnus on jo varattu")
 
-    return "Tunnus luotu"
+    return render_template("register.html", success="Tunnus luotu onnistuneesti")
 
 @app.route("/login", methods=["GET","POST"])
 
@@ -120,9 +132,9 @@ def login():
                 session["username"] = username
                 return redirect("/")
             else:
-                return "VIRHE: väärä tunnus tai salasana"
+                return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
     else:
-        return "VIRHE: käyttäjätunnusta ei löytynyt"
+        return render_template("login.html", error="VIRHE: käyttäjätunnusta ei löytynyt")
 
 @app.route("/logout")
 def logout():

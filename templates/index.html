@@ -32,6 +32,9 @@
     </form>
   </p>
   {% endif %}
+  
+    <form action="/find_dog" method = "get">
+      <button type="submit">Etsi ilmoitus</button>
     <h2>Ilmoitukset</h2>
         <ul>
           {% for dog in dogs %}

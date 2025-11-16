@@ -1,23 +1,26 @@
 <html>
-
-<head>
-  <title>{{ dog.dogname }}</title>
+  <head>
+    <title>{{ dog.dogname }}</title>
 </head>
 
 <body>
   {% if dog.user_id  == session.user_id %}
-  <p>
-    <a href="/edit_dog/{{dog.dog_id}}">Muokkaa</a>
-    <a href="/remove_dog/{{dog.dog_id}}">Poista koira</a>
-  </p>
-  <p>
+    <form action="/edit_dog/{{dog.dog_id}}"  method = "GET">
+      <button type="submit">Muokkaa tietoja</button>
+    </form>
+      <form action="/remove_dog/{{dog.dog_id}}"  method = "GET">
+        <button type="submit">Poista koira</button>
+          </form>
+
   {% endif %}
     <h1>{{ dog.dogname }}</h1>
     <p>Rotu: {{ dog.breed }}</p>
     <p>Ikä: {{ dog.age }}</p>
     <p>Sukupuoli: {{ dog.gender }}</p>
     <p>Ilmoittaja: {{dog.user_name}}</p>
-    <p> <a href="/">Takaisin</a>
-</body>
 
+<form action="/" method = "GET">
+    <button type="submit">Takaisin etusivulle</button>
+      </form>
+    </body>
 </html>
