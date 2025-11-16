@@ -23,8 +23,10 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 
 🐾 Sovelluksessa on pääasiallisen tietokohteen lisäksi toissijainen tietokohde, jossa pystyy kertomaan enemmän koirastaan, esim. etsii seuraa agilityyn, lenkeille, kisoihin, koirapuistoon, tarvitsee välillä ulkoiluttajaa.
 
+
+
 Miten sovellusta voi käyttää?
-- Kopioi projektin linkki painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta 
+- Kopioi projektin linkki oikealta ylhäältä painamalla vihreätä Code-nappia > SSH > ota linkki talteen Clonesta tai;
 ```bash
 git@github.com:emmapiittala/koiratietokanta.git
 ```
@@ -45,6 +47,8 @@ source venv/bin/activate
 pip install flask
 ```
 
-- Sovelluksen saa käynnistymään kirjoittamalla komentoriville: flask run ja kopioimalla komentoriville tulevan selaimen linkin (http://127.0.0.1:5000)
+- Sovelluksen saa käynnistymään kirjoittamalla komentoriville: ```bash
+flask run```
+ja kopioimalla komentoriville tulevan selaimen linkin (http://127.0.0.1:5000)
 
 - Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia. 
