@@ -47,7 +47,7 @@ source venv/bin/activate
 pip install flask
 ```
 
-- Kirjoita komentoriville: flask run 
+- Kirjoita komentoriville: flask run <br>
 Komentoriville pitäisi nyt ilmestyä linkki, joka on suunnilleen tämän näköinen: (http://127.0.0.1:5000). Ota linkki talteen ja siirry selaimeen. 
 ```bash
 flask run
