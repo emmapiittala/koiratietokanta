@@ -47,6 +47,10 @@ source venv/bin/activate
  ```bash
 pip install flask
 ```
+🐾 Luo tietokanta lisäämällä komentoriville: 
+```bash
+sqlite3 database.db < schema.sql
+```
 
 🐾 Kirjoita komentoriville: flask run <br>
 Komentoriville pitäisi nyt ilmestyä linkki, joka on suunnilleen tämän näköinen: (http://127.0.0.1:5000). Ota linkki talteen ja siirry selaimeen. 
