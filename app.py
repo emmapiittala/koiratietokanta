@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, abort
 import sqlite3
 from flask import Flask
 from flask import url_for
@@ -55,6 +55,10 @@ def create_register_dog():
 
 @app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
 def edit_dog(dog_id):
+    dog = dogs.get_dog(dog_id)
+    if dog["user_id"] != session["user_id"]:
+        abort(403)
+
     if request.method == 'POST':
         dogname = request.form["dogname"]
         breed = request.form["breed"]
@@ -70,6 +74,11 @@ def edit_dog(dog_id):
 @app.route("/update_dog", methods=["POST"])
 def update_dog():
     dog_id = request.form["dog_id"]
+    dog = dogs.get_dog(dog_id)
+    if dog["user_id"] != session["user_id"]:
+        abort(403)
+
+    dog_id = request.form["dog_id"]
     dogname = request.form["dogname"]
     breed = request.form["breed"]
     age = request.form["age"]
@@ -80,6 +89,10 @@ def update_dog():
 
 @app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])
 def remove_dog(dog_id):
+    dog = dogs.get_dog(dog_id)
+    if dog["user_id"] != session["user_id"]:
+        abort(403)
+
     if request.method == "POST":
         dogs.remove_dog(dog_id)
         return redirect(url_for('index'))
