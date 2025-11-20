@@ -31,6 +31,8 @@ def find_dog():
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
     dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
     return render_template("show_dog.html", dog=dog)
 
 
@@ -56,6 +58,8 @@ def create_register_dog():
 @app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
 def edit_dog(dog_id):
     dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
@@ -74,7 +78,11 @@ def edit_dog(dog_id):
 @app.route("/update_dog", methods=["POST"])
 def update_dog():
     dog_id = request.form["dog_id"]
+    if dog_id is None:
+        abort(400)
     dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
@@ -90,6 +98,8 @@ def update_dog():
 @app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])
 def remove_dog(dog_id):
     dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
