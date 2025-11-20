@@ -48,8 +48,14 @@ def create_register_dog():
     gender = request.form["gender"]
     user_id = session["user_id"]
 
+    if len(dogname) >= 50:
+        return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
+    if len(breed) >= 50:
+        return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä"
     if int(age) < 0:
         return "VIRHE: Ikä ei voi olla negatiivinen."
+    if int(age) >= 35:
+            return "VIRHE: Tarkista ikä"
 
     dogs.add_dogs(dogname, breed, age, gender, user_id)
 
