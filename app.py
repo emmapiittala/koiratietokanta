@@ -75,11 +75,18 @@ def edit_dog(dog_id):
         age = request.form["age"]
         gender = request.form["gender"]
 
+        if len(dogname) >= 50:
+            return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
+        if len(breed) >= 50:
+            return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä"
+        if int(age) < 0:
+            return "VIRHE: Ikä ei voi olla negatiivinen."
+        if int(age) >= 35:
+            return "VIRHE: Tarkista ikä"
+
         dogs.update_dog(dog_id, dogname, breed, age, gender)
         return redirect(url_for('get_dog', dog_id=dog_id))
-    else:
-        dog = dogs.get_dog(dog_id)
-        return render_template('edit_dog.html', dog=dog)
+    return render_template('edit_dog.html', dog=dog)
 
 @app.route("/update_dog", methods=["POST"])
 def update_dog():
