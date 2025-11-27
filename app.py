@@ -32,7 +32,8 @@ def show_user(user_id):
     if user is None:
         abort(404)
     user_dogs = dogs.get_dogs_for_user(user_id)
-    return render_template("show_user.html", user=user, dogs=user_dogs)
+    classes = dogs.get_classes(user_id)
+    return render_template("show_user.html", user=user, dogs=user_dogs, classes=classes)
 
 
 @app.route("/dogs/<int:dog_id>")
@@ -40,7 +41,8 @@ def get_dog(dog_id):
     dog = dogs.get_dog(dog_id)
     if dog is None:
         abort(404)
-    return render_template("show_dog.html", dog=dog)
+    classes = dogs.get_classes(dog_id)
+    return render_template("show_dog.html", dog=dog, classes = classes)
 
 
 @app.route("/register_dog")
@@ -54,6 +56,22 @@ def create_register_dog():
     age = request.form["age"]
     gender = request.form["gender"]
     user_id = session["user_id"]
+    size = request.form.get("size")
+    temperament = request.form.get("temperament")
+    activity = request.form.get("activity")
+    classes = []
+
+    size = request.form.get("size")
+    if size:
+        classes.append(("size", size))
+
+    temperament = request.form.get("temperament")
+    if temperament:
+        classes.append(("temperament", temperament))
+
+    activity = request.form.get("activity")
+    if activity:
+        classes.append(("activity", activity))
 
     if len(dogname) >= 50:
         return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
@@ -64,7 +82,8 @@ def create_register_dog():
     if int(age) >= 35:
             return "VIRHE: Tarkista ikä"
 
-    dogs.add_dogs(dogname, breed, age, gender, user_id)
+
+    dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
     return redirect("/")
 

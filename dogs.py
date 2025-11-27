@@ -1,10 +1,30 @@
 import db
 
-def add_dogs(dogname, breed, age, gender, user_id): ##Lisää uuden koiran tietokantaan
+def add_dogs(dogname, breed, age, gender, user_id, classes): ##Lisää uuden koiran tietokantaan
 
     sql = """INSERT INTO register_dog (dogname, breed, age, gender, user_id)
             VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [dogname, breed, age, gender, user_id])
+    dog_id = db.last_insert_id()
+
+    size = None
+    temperament = None
+    activity = None
+
+    for title, value in classes:
+        if title == "size":
+            size = value
+        elif title == "temperament":
+            temperament = value
+        elif title == "activity":
+            activity = value
+    sql = "INSERT INTO dog_classes(dog_id,size, temperament, activity) VALUES (?,?,?,?) "
+    db.execute(sql, [dog_id, size, temperament, activity])
+
+
+def get_classes(dog_id):
+    sql = "SELECT size, temperament, activity FROM dog_classes WHERE dog_id=?"
+    return db.query(sql,[dog_id])
 
 def get_dogs(): ## tämä hakee kaikki koirat register_dog
     sql = "SELECT id, dogname FROM register_dog ORDER BY id DESC"

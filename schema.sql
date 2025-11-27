@@ -12,3 +12,12 @@ CREATE TABLE register_dog (
     gender TEXT,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE dog_classes (
+    id INTEGER PRIMARY KEY,
+    dog_id INTEGER REFERENCES register_dog(id),
+    size TEXT,
+    temperament TEXT,
+    activity TEXT
+
+);
