@@ -3,11 +3,9 @@ import sqlite3
 from flask import Flask
 from flask import url_for
 from flask import redirect, render_template, request, session
-from werkzeug.security import generate_password_hash, check_password_hash
-import db
-import config
 import dogs
 import users
+import config
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -32,7 +30,7 @@ def find_dog():
 def show_user(user_id):
     user = users.get_user(user_id)
     if user is None:
-        abort(404)  # Palauta 404, jos käyttäjää ei löydy
+        abort(404)
     user_dogs = dogs.get_dogs_for_user(user_id)
     return render_template("show_user.html", user=user, dogs=user_dogs)
 
@@ -144,16 +142,13 @@ def create():
 
     if password1 != password2:
         return render_template("register.html", error="VIRHE: salasanat eivät ole samat")
-
-    password_hash = generate_password_hash(password1)
-
     try:
-        sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-        db.execute(sql, [username, password_hash])
+        users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        return render_template("register.html", error="VIRHE: tunnus on jo varattu")
+        return "VIRHE: tunnus on jo varattu"
 
-    return render_template("register.html", success="Tunnus luotu onnistuneesti")
+    return "Tunnnus luotu"
+
 
 @app.route("/login", methods=["GET","POST"])
 
@@ -165,21 +160,13 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-    sql = "SELECT id, password_hash FROM users WHERE username = ?"
-    result = db.query(sql, [username])
-
-    if result:
-            user_id = result[0]["id"]
-            password_hash = result[0]["password_hash"]
-
-            if check_password_hash(password_hash, password):
+    user_id = users.check_login(username, password)
+    if user_id:
                 session["user_id"] = user_id
                 session["username"] = username
                 return redirect("/")
-            else:
-                return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
     else:
-        return render_template("login.html", error="VIRHE: käyttäjätunnusta ei löytynyt")
+                return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
