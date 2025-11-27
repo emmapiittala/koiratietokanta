@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
 import dogs
-
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -27,6 +27,15 @@ def find_dog():
         query = ""
         results = []
     return render_template("find_dog.html", query =query, result=results)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if user is None:
+        abort(404)  # Palauta 404, jos käyttäjää ei löydy
+    user_dogs = dogs.get_dogs_for_user(user_id)
+    return render_template("show_user.html", user=user, dogs=user_dogs)
+
 
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
