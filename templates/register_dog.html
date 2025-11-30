@@ -1,66 +1,53 @@
 <html>
-
 <head>
   <title>Rekisteröi Koira</title>
 </head>
-
 <body>
     <h1>Rekisteröi uusi koira</h1>
         <form action="/create_register_dog" method="POST">
             <label for="dogname">Koiran nimi:</label>
-                <input type="text" id="dogname" name="dogname" required maxlength = "50"><br><br>
+                <input type="text" id="dogname" name="dogname" required maxlength="50"><br><br>
 
-    <label for="breed">Rotu:</label>
-        <input type="text" id="breed" name="breed" required maxlength = "50"><br><br>
+            <label for="breed">Rotu:</label>
+                <input type="text" id="breed" name="breed" required maxlength="50"><br><br>
 
-        <label for="age">Ikä:</label>
-            <input type="number" id="age" name="age" min="0" max="35"required><br><br>
+            <label for="age">Ikä:</label>
+                <input type="number" id="age" name="age" min="0" max="35" required><br><br>
 
-    <label for="gender">Sukupuoli:</label>
-        <select id="gender" name="gender" required>
-            <option value="uros">Uros</option>
-                <option value="narttu">Narttu</option>
+            <label for="gender">Sukupuoli:</label>
+                <select id="gender" name="gender" required>
+                    <option value="uros">Uros</option>
+                    <option value="narttu">Narttu</option>
+                </select><br><br>
+
+            <label for="size">Koko:</label>
+            <select id="size" name="size" required>
+                <option value="">(valitse)</option>
+                {% for size in sizes %}
+                    <option value="{{ size }}">{{ size }}</option>
+                {% endfor %}
             </select><br><br>
-                        </p>
-                        <p>
-                Minkä kokoinen koira on? </br>
-                <select name="size">
-                    <option value="Valitse">Valitse</option>
-                    <option value="Pieni">Pieni</option>
-                    <option value="Keskikokoinen">Keskikokoinen</option>
-                    <option value="Suuri">Suuri</option>
-                    </select>
 
-            </p>
-                Koiran luonne </br>
-                <select name="temperament">
-                    <option value="Valitse">Valitse</option>
-                    <option value="Käyttäytyy nätisti">Käyttäytyy nätisti</option>
-                    <option value="Käyttäytyy nätisti, mutta joitain ongelmia">Käyttäytyy nätisti, mutta joitain ongelmia</option>
-                    <option value="Remmirähisiä">Remmirähisiä</option>
-                    </select>
+            <label for="temperament">Luonteenpiirre:</label>
+            <select id="temperament" name="temperament" required>
+                <option value="">(valitse)</option>
+                {% for temperament in temperaments %}
+                    <option value="{{ temperament }}">{{ temperament }}</option>
+                {% endfor %}
+            </select><br><br>
 
-            </p>
-            <p>
-                Mihin aktiviteettiin etsit seuraa? </br>
-                <select name="activity">
-                    <option value="Valitse">Valitse</option>
-                    <option value="Näyttely">Näyttely</option>
-                    <option value="Koirapuisto">Koirapuisto</option>
-                    <option value="Ulkoiluun">Ulkoiluun</option>
-                    <option value="Agility">Agility</option>
-                    <option value="Kisoihin">Kisoihin</option>
-                    <option value="Etsin ulkoiluttajaa">Etsin ulkoiluttajaa</option>
-                    </select>
+            <label for="activity">Aktiviteetti:</label>
+            <select id="activity" name="activity" required>
+                <option value="">(valitse)</option>
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+            </select><br><br>
 
-
-<p>
-</p>
-        <input type="submit" value="Rekisteröi koira">
-           <form action="/" method = "get">
-
+            <input type="submit" value="Rekisteröi koira">
         </form>
-        <form action="/" method = "get">
-    <button type="submit">Takaisin etusivulle</button>
-    </body>
+        <form action="/" method="get">
+            <button type="submit">Takaisin etusivulle</button>
+        </form>
+</body>
 </html>

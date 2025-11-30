@@ -44,10 +44,14 @@ def get_dog(dog_id):
     classes = dogs.get_classes(dog_id)
     return render_template("show_dog.html", dog=dog, classes = classes)
 
-
 @app.route("/register_dog")
 def register_dog():
-    return render_template("register_dog.html")
+    all_classes = dogs.get_all_classes()
+    return render_template("register_dog.html", 
+        sizes=all_classes["sizes"], 
+        temperaments=all_classes["temperaments"], 
+        activities=all_classes["activities"])
+
 
 @app.route("/create_register_dog", methods=["POST"])
 def create_register_dog():
@@ -81,8 +85,7 @@ def create_register_dog():
         return "VIRHE: Ikä ei voi olla negatiivinen."
     if int(age) >= 35:
             return "VIRHE: Tarkista ikä"
-
-
+    request.form.getlist("classes")
     dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
     return redirect("/")

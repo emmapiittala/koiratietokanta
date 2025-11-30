@@ -72,3 +72,19 @@ def get_dogs_for_user(user_id):
     sql = """SELECT id AS dog_id, dogname, breed, age, gender
     FROM register_dog WHERE user_id = ?"""
     return db.query(sql, [user_id])
+
+def get_all_classes():
+    sql = "SELECT size FROM classes WHERE size IS NOT NULL ORDER BY id"
+    sizes = db.query(sql)
+
+    sql = "SELECT temperament FROM classes WHERE temperament IS NOT NULL ORDER BY id"
+    temperaments = db.query(sql)
+
+    sql = "SELECT activity FROM classes WHERE activity IS NOT NULL ORDER BY id"
+    activities = db.query(sql)
+
+    return {
+        "sizes": [size[0] for size in sizes],
+        "temperaments": [temperament[0] for temperament in temperaments],
+        "activities": [activity[0] for activity in activities]
+    }

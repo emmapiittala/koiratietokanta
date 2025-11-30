@@ -21,3 +21,11 @@ CREATE TABLE dog_classes (
     activity TEXT
 
 );
+
+CREATE TABLE classes (
+id INTEGER PRIMARY KEY,
+size TEXT,
+activity TEXT,
+temperament TEXT
+);
+
