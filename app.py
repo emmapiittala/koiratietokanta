@@ -98,11 +98,15 @@ def edit_dog(dog_id):
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
+    all_classes = dogs.get_all_classes()
     if request.method == 'POST':
         dogname = request.form["dogname"]
         breed = request.form["breed"]
         age = request.form["age"]
         gender = request.form["gender"]
+        size = request.form["size"]
+        temperament = request.form["temperament"]
+        activity = request.form["activity"]
 
         if len(dogname) >= 50:
             return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
@@ -113,28 +117,37 @@ def edit_dog(dog_id):
         if int(age) >= 35:
             return "VIRHE: Tarkista ikä"
 
-        dogs.update_dog(dog_id, dogname, breed, age, gender)
+        dogs.update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
         return redirect(url_for('get_dog', dog_id=dog_id))
-    return render_template('edit_dog.html', dog=dog)
+    return render_template('edit_dog.html', dog=dog,
+                           sizes=all_classes["sizes"],
+                           temperaments=all_classes["temperaments"],
+                           activities=all_classes["activities"])
 
 @app.route("/update_dog", methods=["POST"])
 def update_dog():
     dog_id = request.form["dog_id"]
     if dog_id is None:
         abort(400)
+
     dog = dogs.get_dog(dog_id)
     if dog is None:
         abort(404)
+
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
-    dog_id = request.form["dog_id"]
     dogname = request.form["dogname"]
     breed = request.form["breed"]
     age = request.form["age"]
     gender = request.form["gender"]
+    size = request.form["size"]
+    temperament = request.form["temperament"]
+    activity = request.form["activity"]
 
-    dogs.update_dog(dog_id, dogname, breed, age, gender)
+
+    dogs.update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
+
     return redirect(url_for('get_dog', dog_id=dog_id))
 
 @app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])

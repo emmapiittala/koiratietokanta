@@ -30,30 +30,37 @@ def get_dogs(): ## tämä hakee kaikki koirat register_dog
     sql = "SELECT id, dogname FROM register_dog ORDER BY id DESC"
     return db.query(sql)
 
-def get_dog(dog_id): ##Hakee tietyn koiran tiedot
+def get_dog(dog_id):
     sql = """SELECT
-    rd.id AS dog_id,
-    rd.dogname,
-    rd.breed,
-    rd.age,
-    rd.gender,
-    u.id AS user_id,
-    u.username AS user_name
+        rd.id AS dog_id,
+        rd.dogname,
+        rd.breed,
+        rd.age,
+        rd.gender,
+        dc.size,
+        dc.temperament,
+        dc.activity,
+        u.id AS user_id,
+        u.username AS user_name
     FROM register_dog AS rd
     JOIN users AS u ON rd.user_id = u.id
+    LEFT JOIN dog_classes AS dc ON rd.id = dc.dog_id
     WHERE rd.id = ?"""
 
     result = db.query(sql, [dog_id])
-
     return result[0] if result else None
 
-def update_dog(dog_id,dogname, breed, age, gender): ##voi päivittää koiran tietoja/ilmoitusta.
-    sql = """UPDATE register_dog SET dogname = ?,
-    breed = ?,
-    age = ?,
-    gender = ?
-    WHERE id = ?"""
+
+def update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity):
+
+    sql = """UPDATE register_dog SET dogname = ?, breed = ?, age = ?, gender = ? WHERE id = ?"""
     db.execute(sql, [dogname, breed, age, gender, dog_id])
+
+    sql = "DELETE FROM dog_classes WHERE dog_id = ?"
+    db.execute(sql, [dog_id])
+
+    sql = "INSERT INTO dog_classes(dog_id, size, temperament, activity) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [dog_id, size, temperament, activity])
 
 def remove_dog(dog_id): ##Poistaa koiran
     sql = "DELETE FROM register_dog WHERE id = ?"
