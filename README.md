@@ -59,4 +59,6 @@ flask run
 ```
 
 🐾 Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia sekä ilmoituksen jättänyt pystyy poistamaan ilmoituksensa. 
+
+
 ‼️‼️‼️EDIT 1.12. Sovelluksessa on käyttäjäsivut ja siellä näkyy käyttäjän lisäämät kohteet. Käyttäjä pystyy valitsemaann useamman luokittelun. Sain vaan niin juntturaan etten pushaa kaikkea, yritän alkuviikosta selvitellä miten saan toimimaan.‼️‼️‼️
