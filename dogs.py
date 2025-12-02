@@ -5,7 +5,6 @@ def add_dogs(dogname, breed, age, gender, user_id, classes):
     db.execute(sql, [dogname, breed, age, gender, user_id])
     dog_id = db.last_insert_id()
 
-    # Alustetaan arvot
     size = None
     temperament = None
     activity = None
@@ -21,6 +20,18 @@ def add_dogs(dogname, breed, age, gender, user_id, classes):
     sql = "INSERT INTO dog_classes(dog_id, size, temperament, activity) VALUES (?, ?, ?, ?)"
     db.execute(sql, [dog_id, size, temperament, activity])  # Anna kaikki kolme arvoa
 
+def add_question(dog_id, user_id, textarea):
+        sql = """INSERT INTO questions (dog_id, user_id, textarea)
+                  VALUES (?, ?, ?)"""
+        db.execute(sql, [dog_id, user_id, textarea])
+
+def get_question(dog_id):
+    sql = """SELECT questions.textarea, questions.user_id, questions.dog_id, users.username
+             FROM questions
+             JOIN users ON questions.user_id = users.id
+             WHERE questions.dog_id = ?
+             ORDER BY questions.id DESC"""
+    return db.query(sql, [dog_id])
 
 def get_classes(dog_id):
     sql = "SELECT size, temperament, activity FROM dog_classes WHERE dog_id=?"
@@ -62,11 +73,16 @@ def update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
     sql = "INSERT INTO dog_classes(dog_id, size, temperament, activity) VALUES (?, ?, ?, ?)"
     db.execute(sql, [dog_id, size, temperament, activity])
 
-def remove_dog(dog_id): ##Poistaa koiran
-    sql = "DELETE FROM dog_classes WHERE id = ?"
+def remove_dog(dog_id):
+    sql = "DELETE FROM questions WHERE dog_id = ?"
     db.execute(sql, [dog_id])
+
+    sql = "DELETE FROM dog_classes WHERE dog_id = ?"
+    db.execute(sql, [dog_id])
+
     sql = "DELETE FROM register_dog WHERE id = ?"
     db.execute(sql, [dog_id])
+
 
 def find_dog(query):
     sql = """SELECT rd.id AS dog_id, rd.dogname, u.username, rd.user_id

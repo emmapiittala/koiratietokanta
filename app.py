@@ -34,7 +34,12 @@ def show_user(user_id):
         abort(404)
     user_dogs = dogs.get_dogs_for_user(user_id)
     classes = dogs.get_classes(user_id)
-    return render_template("show_user.html", user=user, dogs=user_dogs, classes=classes)
+    questions = []
+    if user_dogs:
+        for dog in user_dogs:
+            dog_questions = dogs.get_question(dog['dog_id'])
+            questions.extend(dog_questions)
+    return render_template("show_user.html", user=user, dogs=user_dogs, classes=classes,questions=questions)
 
 
 @app.route("/dogs/<int:dog_id>")
@@ -43,7 +48,8 @@ def get_dog(dog_id):
     if dog is None:
         abort(404)
     classes = dogs.get_classes(dog_id)
-    return render_template("show_dog.html", dog=dog, classes = classes)
+    questions = dogs.get_question(dog_id)
+    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions)
 
 @app.route("/register_dog")
 def register_dog():
@@ -52,6 +58,18 @@ def register_dog():
         sizes=all_classes["sizes"], 
         temperaments=all_classes["temperaments"], 
         activities=all_classes["activities"])
+
+@app.route("/create_questions", methods=["POST"])
+def create_questions():
+    if "user_id" not in session:
+        abort(403)
+    dog_id = request.form["dog_id"]
+    user_id = session["user_id"]
+    textarea = request.form["textarea"]
+
+    dogs.add_question(dog_id, user_id, textarea)
+
+    return redirect("/dogs/" + str(dog_id))
 
 @app.route("/create_register_dog", methods=["POST"])
 def create_register_dog():

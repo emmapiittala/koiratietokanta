@@ -22,6 +22,13 @@ CREATE TABLE dog_classes (
     activity TEXT
 );
 
+CREATE TABLE questions (
+    id INTEGER PRIMARY KEY,
+    dog_id INTEGER REFERENCES register_dog(id),
+    user_id INTEGER REFERENCES users(id),
+    textarea TEXT
+);
+
 CREATE TABLE classes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     size TEXT NOT NULL,
