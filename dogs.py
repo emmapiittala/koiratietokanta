@@ -1,12 +1,11 @@
 import db
-
-def add_dogs(dogname, breed, age, gender, user_id, classes): ##Lisää uuden koiran tietokantaan
-
+def add_dogs(dogname, breed, age, gender, user_id, classes):
     sql = """INSERT INTO register_dog (dogname, breed, age, gender, user_id)
-            VALUES (?, ?, ?, ?, ?)"""
+              VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [dogname, breed, age, gender, user_id])
     dog_id = db.last_insert_id()
 
+    # Alustetaan arvot
     size = None
     temperament = None
     activity = None
@@ -18,15 +17,16 @@ def add_dogs(dogname, breed, age, gender, user_id, classes): ##Lisää uuden koi
             temperament = value
         elif title == "activity":
             activity = value
-    sql = "INSERT INTO dog_classes(dog_id,size, temperament, activity) VALUES (?,?,?,?) "
-    db.execute(sql, [dog_id, size, temperament, activity])
+
+    sql = "INSERT INTO dog_classes(dog_id, size, temperament, activity) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [dog_id, size, temperament, activity])  # Anna kaikki kolme arvoa
 
 
 def get_classes(dog_id):
     sql = "SELECT size, temperament, activity FROM dog_classes WHERE dog_id=?"
-    return db.query(sql,[dog_id])
+    return db.query(sql, [dog_id])
 
-def get_dogs(): ## tämä hakee kaikki koirat register_dog
+def get_dogs():
     sql = "SELECT id, dogname FROM register_dog ORDER BY id DESC"
     return db.query(sql)
 
@@ -81,13 +81,13 @@ def get_dogs_for_user(user_id):
     return db.query(sql, [user_id])
 
 def get_all_classes():
-    sql = "SELECT size FROM classes WHERE size IS NOT NULL ORDER BY id"
+    sql = "SELECT size FROM sizes ORDER BY id"
     sizes = db.query(sql)
 
-    sql = "SELECT temperament FROM classes WHERE temperament IS NOT NULL ORDER BY id"
+    sql = "SELECT temperament FROM temperaments ORDER BY id"
     temperaments = db.query(sql)
 
-    sql = "SELECT activity FROM classes WHERE activity IS NOT NULL ORDER BY id"
+    sql = "SELECT activity FROM activities ORDER BY id"
     activities = db.query(sql)
 
     return {

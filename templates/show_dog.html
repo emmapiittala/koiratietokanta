@@ -18,19 +18,27 @@
     <p>Ikä: {{ dog.age }}</p>
     <p>Sukupuoli: {{ dog.gender }}</p>
     <p>Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
-    {% if classes %}
+{% if classes %}
 <p>
   Luokat:
   <ul>
     {% for class in classes %}
-    <li> Koko: {{class.size}}<br>
-       Aktiviteetti: {{class.activity}}<br>
-       Luonne: {{class.temperament}}
+    <li>
+      {%if class.size%}
+      Koko: {{ class.size }}<br>
+      {%endif%}
+        {%if class.activity%}
+       Aktiviteetti: {{ class.activity }}<br>
+        {%endif%}
+       {%if class.temperament%}
+       Luonne: {{ class.temperament }}
+       {%endif%}
       </li>
-      {%endfor%}
-    </ul>
-    </p>
-    {% endif %}
+    {% endfor %}
+  </ul>
+</p>
+{% endif %}
+
     <p>
 <form action="/" method = "GET">
     <button type="submit">Takaisin etusivulle</button>

@@ -4,8 +4,8 @@
 </head>
 <body>
 <h1>Muokkaa ilmoitusta</h1>
-
-<form action="/update_dog" method="POST">
+<form action="/edit_dog/{{dog.dog_id}}" method="POST">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <label for="dogname">Koiran nimi:</label>
     <input type="text" id="dogname" name="dogname" value="{{ dog.dogname }}" required maxlength="50"><br><br>
 
@@ -48,9 +48,3 @@
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="submit" value="Päivitä tiedot"><br><br>
 </form>
-
-<form action="/" method="get">
-    <button type="submit">Takaisin etusivulle</button>
-</form>
-</body>
-</html>

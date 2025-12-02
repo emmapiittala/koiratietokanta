@@ -1,3 +1,4 @@
+import secrets
 from flask import Flask, abort
 import sqlite3
 from flask import Flask
@@ -52,28 +53,26 @@ def register_dog():
         temperaments=all_classes["temperaments"], 
         activities=all_classes["activities"])
 
-
 @app.route("/create_register_dog", methods=["POST"])
 def create_register_dog():
+    check_csrf()
+    if "user_id" not in session:
+        abort(403)
+
+    user_id = session["user_id"]
     dogname = request.form["dogname"]
     breed = request.form["breed"]
     age = request.form["age"]
     gender = request.form["gender"]
-    user_id = session["user_id"]
     size = request.form.get("size")
     temperament = request.form.get("temperament")
     activity = request.form.get("activity")
-    classes = []
 
-    size = request.form.get("size")
+    classes = []
     if size:
         classes.append(("size", size))
-
-    temperament = request.form.get("temperament")
     if temperament:
         classes.append(("temperament", temperament))
-
-    activity = request.form.get("activity")
     if activity:
         classes.append(("activity", activity))
 
@@ -84,8 +83,22 @@ def create_register_dog():
     if int(age) < 0:
         return "VIRHE: Ikä ei voi olla negatiivinen."
     if int(age) >= 35:
-            return "VIRHE: Tarkista ikä"
-    request.form.getlist("classes")
+        return "VIRHE: Tarkista ikä"
+
+    all_classes = dogs.get_all_classes()
+
+    for entry in classes:
+        title, value = entry
+        if title == "size" and value not in all_classes["sizes"]:
+            print(f"Virheellinen luokka: {title}, arvo: {value}")
+            abort(403)
+        elif title == "temperament" and value not in all_classes["temperaments"]:
+            print(f"Virheellinen luokka: {title}, arvo: {value}")
+            abort(403)
+        elif title == "activity" and value not in all_classes["activities"]:
+            print(f"Virheellinen luokka: {title}, arvo: {value}")
+            abort(403)
+
     dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
     return redirect("/")
@@ -95,60 +108,50 @@ def edit_dog(dog_id):
     dog = dogs.get_dog(dog_id)
     if dog is None:
         abort(404)
-    if dog["user_id"] != session["user_id"]:
+
+    if "user_id" not in session or dog["user_id"] != session["user_id"]:
         abort(403)
 
     all_classes = dogs.get_all_classes()
+
     if request.method == 'POST':
+        check_csrf()
         dogname = request.form["dogname"]
         breed = request.form["breed"]
         age = request.form["age"]
         gender = request.form["gender"]
-        size = request.form["size"]
-        temperament = request.form["temperament"]
-        activity = request.form["activity"]
+        size = request.form.get("size")
+        temperament = request.form.get("temperament")
+        activity = request.form.get("activity")
 
-        if len(dogname) >= 50:
-            return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
+        if not dogname or len(dogname) >= 50:
+            return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä", 403
         if len(breed) >= 50:
-            return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä"
+            return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä", 403
         if int(age) < 0:
-            return "VIRHE: Ikä ei voi olla negatiivinen."
+            return "VIRHE: Ikä ei voi olla negatiivinen.", 403
         if int(age) >= 35:
-            return "VIRHE: Tarkista ikä"
+            return "VIRHE: Tarkista ikä", 403
 
+        validate_classes(all_classes, size, temperament, activity)
         dogs.update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
         return redirect(url_for('get_dog', dog_id=dog_id))
+
     return render_template('edit_dog.html', dog=dog,
                            sizes=all_classes["sizes"],
                            temperaments=all_classes["temperaments"],
                            activities=all_classes["activities"])
 
-@app.route("/update_dog", methods=["POST"])
-def update_dog():
-    dog_id = request.form["dog_id"]
-    if dog_id is None:
-        abort(400)
+def validate_classes(all_classes, size, temperament, activity):
+    classes = [("size", size), ("temperament", temperament), ("activity", activity)]
+    for title, value in classes:
+        if value and title == "size" and value not in all_classes["sizes"]:
+            abort(403)
+        elif value and title == "temperament" and value not in all_classes["temperaments"]:
+            abort(403)
+        elif value and title == "activity" and value not in all_classes["activities"]:
+            abort(403)
 
-    dog = dogs.get_dog(dog_id)
-    if dog is None:
-        abort(404)
-
-    if dog["user_id"] != session["user_id"]:
-        abort(403)
-
-    dogname = request.form["dogname"]
-    breed = request.form["breed"]
-    age = request.form["age"]
-    gender = request.form["gender"]
-    size = request.form["size"]
-    temperament = request.form["temperament"]
-    activity = request.form["activity"]
-
-
-    dogs.update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
-
-    return redirect(url_for('get_dog', dog_id=dog_id))
 
 @app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])
 def remove_dog(dog_id):
@@ -185,8 +188,7 @@ def create():
     return "Tunnnus luotu"
 
 
-@app.route("/login", methods=["GET","POST"])
-
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
         return render_template("login.html")
@@ -195,13 +197,14 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-    user_id = users.check_login(username, password)
-    if user_id:
-                session["user_id"] = user_id
-                session["username"] = username
-                return redirect("/")
-    else:
-                return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
+        user_id = users.check_login(username, password)
+        if user_id:
+            session["user_id"] = user_id
+            session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
+            return redirect("/")
+        else:
+            return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
@@ -210,3 +213,17 @@ def logout():
     if "username" in session:
         del session["username"]
     return redirect("/")
+
+def check_csrf():
+    if "csrf_token" not in session:
+        abort(403)
+
+    token_from_form = request.form.get("csrf_token")
+    token_from_session = session["csrf_token"]
+
+    if not token_from_form or token_from_form != token_from_session:
+        abort(403)
+
+@app.route("/new_message", methods=["POST"])
+def new_message():
+    check_csrf()
