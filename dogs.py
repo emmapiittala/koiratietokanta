@@ -63,6 +63,8 @@ def update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
     db.execute(sql, [dog_id, size, temperament, activity])
 
 def remove_dog(dog_id): ##Poistaa koiran
+    sql = "DELETE FROM dog_classes WHERE id = ?"
+    db.execute(sql, [dog_id])
     sql = "DELETE FROM register_dog WHERE id = ?"
     db.execute(sql, [dog_id])
 
