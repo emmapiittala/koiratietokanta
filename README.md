@@ -58,5 +58,8 @@ Komentoriville pitäisi nyt ilmestyä linkki, joka on suunnilleen tämän näkö
 flask run
 ```
 
-🐾 Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia sekä vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia sekä ilmoituksen jättänyt pystyy poistamaan ilmoituksensa. 
- Sovelluksessa on käyttäjäsivut ja siellä näkyy käyttäjän lisäämät kohteet. Käyttäjä pystyy valitsemaann useamman luokittelun sekä koiraan liittyviä kysymyksiä pystyy jättämään. 
+🐾 Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. 
+
+
+🐾Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia ja vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia sekä ilmoituksen jättänyt pystyy poistamaan ilmoituksensa.  
+ Sovelluksessa on käyttäjäsivut ja siellä näkyy käyttäjän lisäämät koirat sekä kuinka monta ilmoitusta hän on jättänyt. Käyttäjä pystyy valitsemaann useamman luokittelun sekä koiraan liittyviä kysymyksiä pystyy jättämään. 
