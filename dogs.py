@@ -86,12 +86,12 @@ def remove_dog(dog_id):
 
 def find_dog(query):
     sql = """SELECT rd.id AS dog_id, rd.dogname, u.username, rd.user_id
-    FROM register_dog AS rd
-    JOIN users AS u ON rd.user_id = u.id
-    WHERE rd.dogname LIKE ? OR rd.gender LIKE ? OR rd.breed LIKE ? OR rd.age LIKE ? OR u.username LIKE ?
-    ORDER BY rd.id DESC"""
+             FROM register_dog AS rd
+             JOIN users AS u ON rd.user_id = u.id
+             WHERE rd.dogname LIKE ? OR rd.gender LIKE ? OR rd.breed LIKE ? OR rd.age LIKE ? OR u.username LIKE ?
+             ORDER BY rd.id DESC"""
     query = "%" + query + "%"
-    return db.query(sql,[query, query, query, query, query])
+    return db.query(sql, [query, query, query, query, query])
 
 def get_dogs_for_user(user_id):
     sql = """SELECT id AS dog_id, dogname, breed, age, gender

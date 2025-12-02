@@ -20,12 +20,12 @@ def index():
 @app.route("/find_dog")
 def find_dog():
     query = request.args.get("query")
+    queston_text = ""
     if query:
-        results = dogs.find_dog(query)
+        results = dogs.find_dog(query)  # Tämä funktio hakee koirat tietokannasta
     else:
-        query = ""
         results = []
-    return render_template("find_dog.html", query =query, result=results)
+    return render_template("find_dog.html", query=query, result=results, queston_text = queston_text)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -49,7 +49,8 @@ def get_dog(dog_id):
         abort(404)
     classes = dogs.get_classes(dog_id)
     questions = dogs.get_question(dog_id)
-    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions)
+    question_text = ""
+    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions, question_text = question_text)
 
 @app.route("/register_dog")
 def register_dog():
@@ -58,6 +59,22 @@ def register_dog():
         sizes=all_classes["sizes"], 
         temperaments=all_classes["temperaments"], 
         activities=all_classes["activities"])
+
+@app.route("/dogs/")
+def list_dogs():
+    all_dogs = dogs.get_dogs()
+    return render_template("list_dogs.html", dogs=all_dogs)
+
+@app.route("/find_dog")
+def search_dog():
+    query = request.args.get("query")
+    if query:
+        results = dogs.find_dog(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_dog.html", query=query, result=results)
+
 
 @app.route("/create_questions", methods=["POST"])
 def create_questions():

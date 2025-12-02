@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Kaikki koirat</title>
+</head>
+<body>
+    <h1>Kaikki koirat</h1>
+    <ul>
+        {% for dog in dogs %}
+            <li>
+                <a href="/dogs/{{ dog.dog_id }}">{{ dog.dogname }}</a> - Ilmoittaja: {{ dog.username }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Takaisin etusivulle</a>
+</body>
+</html>
+

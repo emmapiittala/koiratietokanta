@@ -1,26 +1,33 @@
 <html>
 <head>
-  <title>Etsi koira</title>
+    <title>Etsi koira</title>
 </head>
 <body>
-<h1>Etsi koira</h1>
-<form action="/find_dog" method="GET">
-    <p>
-        Hakusana: <input type="text" name="query" value={{ query }}>
-    </p>
-    <p><small>Hakusanoja voivat olla koiran nimi, ikä, rotu, sukupuoli tai ilmoittajan nimi</small></p>
-    <input type="submit" value="Lähetä">
+    <h1>Etsi koira</h1>
+    <form action="/find_dog" method="GET">
+        <p>
+            Hakusana: <input type="text" name="query" value="{{queston_text }}">
+        </p>
+        <p>
+            <small>Hakusanoja voivat olla koiran nimi, ikä, rotu, sukupuoli tai ilmoittajan nimi</small>
+        </p>
+        <input type="submit" value="Lähetä">
+    </form>
+    <form action="/" method="get">
+        <button type="submit">Takaisin etusivulle</button>
+    </form>
 
-</form>
-<form action="/" method = "get">
-    <button type="submit">Takaisin etusivulle</button>
-{% if query %}
-<h2>Haullasi löytyi nämä ilmoitukset</h2>
-<ul>
-    {% for dog in result %}
-    <li><a href="/dogs/{{ dog.id }}">{{ dog.dogname }}</a><a> Ilmoittaja: {{ dog.username }}</a>
-    {% endfor %}
-</ul>
-{%endif%}
+    {% if query %}
+        <h2>Haullasi löytyi nämä ilmoitukset</h2>
+        <ul>
+            {% for dog in result %}
+                <li>
+                    <a href="/dogs/{{ dog.dog_id }}">{{ dog.dogname }}</a> - Ilmoittaja: {{ dog.username }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ei hakutuloksia.</p>
+    {% endif %}
 </body>
 </html>
