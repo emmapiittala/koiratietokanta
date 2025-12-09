@@ -122,6 +122,9 @@ def add_image(dog_id, image):
     sql = "INSERT INTO images (dog_id, image) VALUES (?, ?)"
     db.execute(sql, [dog_id, image])
 
+def remove_image(dog_id, image_id):
+    sql = "DELETE FROM images WHERE id = ? AND dog_id = ?"
+    db.execute(sql, [image_id, dog_id])
 def get_image(image_id):
     sql = "SELECT image FROM images WHERE id = ?"
     result = db.query(sql, [image_id])

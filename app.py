@@ -216,7 +216,12 @@ def add_image():
 
     dog_id = request.form["dog_id"]
     file = request.files["image"]
+    dog = dogs.get_dog(dog_id)
+    if dog is None:
+            abort(404)
 
+    if "user_id" not in session or dog["user_id"] != session["user_id"]:
+        abort(403)
     if not file or not file.filename.endswith((".png")):
         return "VIRHE: väärä tiedostomuoto"
 
@@ -226,6 +231,22 @@ def add_image():
     dogs.add_image(dog_id, image)
 
     return redirect("/dogs/" + str(dog_id))
+
+@app.route("/remove_images", methods=["POST"])
+def remove_images():
+    require_login()
+    dog_id = request.form["dog_id"]
+    dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
+
+    if "user_id" not in session or dog["user_id"] != session["user_id"]:
+        abort(403)
+
+    for image_id in request.form.getlist("image_id"):
+        dogs.remove_image(dog_id, image_id)
+
+    return redirect("/images/" + str(dog_id))
 
 @app.route("/image/<int:image_id>")
 def show_image(image_id):

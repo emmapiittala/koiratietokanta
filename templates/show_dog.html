@@ -12,7 +12,7 @@
         <button type="submit">Poista koira</button>
       </form>
             <form action="/images/{{dog.dog_id}}"  method = "GET">
-      <button type="submit">Lisää kuvat</button>
+      <button type="submit">Kuvat</button>
           </form>
 {% for image in images%}
 <img src="/image/{{image.id}}"/>
@@ -28,15 +28,14 @@
   Luokat:
   <ul>
     {% for class in classes %}
-    <li>
       {%if class.size%}
-      Koko: {{ class.size }}<br>
+      <li>Koko: {{ class.size }}</li>
       {%endif%}
-        {%if class.activity%}
-       Aktiviteetti: {{ class.activity }}<br>
-        {%endif%}
        {%if class.temperament%}
-       Luonne: {{ class.temperament }}
+       <li>Luonne: {{ class.temperament }}</li>
+        {%endif%}
+        {%if class.activity%}
+       <li>Aktiviteetti: {{ class.activity }}</li>
        {%endif%}
       </li>
     {% endfor %}
