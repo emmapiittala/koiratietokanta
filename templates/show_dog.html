@@ -10,6 +10,9 @@
     </form>
       <form action="/remove_dog/{{dog.dog_id}}"  method = "GET">
         <button type="submit">Poista koira</button>
+      </form>
+            <form action="/images_dog/{{dog.dog_id}}"  method = "GET">
+      <button type="submit">Lisää kuva</button>
           </form>
 
   {% endif %}
@@ -46,7 +49,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>Ei kysymyksiä.</p>
+    <strong>Ei vielä yhtään jätettyä kysymystä.</strong>
 {% endif %}
 
 {% if session.username %}

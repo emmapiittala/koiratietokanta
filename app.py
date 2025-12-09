@@ -15,14 +15,25 @@ app.secret_key = config.secret_key
 @app.route("/")
 def index():
     all_dogs = dogs.get_dogs()
-    return render_template("index.html", dogs=all_dogs)
+    dogs_with_usernames = []
+    for dog in all_dogs:
+        user = users.get_user(dog['user_id'])
+        dog_info = {
+            'id': dog['dog_id'],
+            'dogname': dog['dogname'],
+            'user_id': dog['user_id'],
+            'user_name': user['username'] if user else "Tuntematon"
+        }
+        dogs_with_usernames.append(dog_info)
+
+    return render_template("index.html", dogs=dogs_with_usernames)
 
 @app.route("/find_dog")
 def find_dog():
     query = request.args.get("query")
     queston_text = ""
     if query:
-        results = dogs.find_dog(query)  # Tämä funktio hakee koirat tietokannasta
+        results = dogs.find_dog(query)
     else:
         results = []
     return render_template("find_dog.html", query=query, result=results, queston_text = queston_text)
@@ -217,10 +228,9 @@ def create():
         return render_template("register.html", error="VIRHE: salasanat eivät ole samat")
     try:
         users.create_user(username, password1)
+        return render_template("register.html", success="Tunnus luotu onnistuneesti.")
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
-
-    return "Tunnnus luotu"
+        return render_template("register.html", error="VIRHE: tunnus on jo varattu")
 
 
 @app.route("/login", methods=["GET", "POST"])

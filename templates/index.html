@@ -35,11 +35,13 @@
   
     <form action="/find_dog" method = "get">
       <button type="submit">Etsi rekisteröityjä koiria</button>
-    <h2>Ilmoitukset</h2>
-        <ul>
-          {% for dog in dogs %}
-          <li><a href="/dogs/{{ dog.id }}">{{ dog.dogname }}</a></li>
-          {% endfor %}
+<h2>Ilmoitukset</h2>
+<ul>
+    {% for dog in dogs %}
+        <li>
+            <a href="/dogs/{{ dog.id }}"><strong>{{ dog.dogname }}</strong></a> Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
+        </li>
+    {% endfor %}
 </ul>
 </body>
 </html>

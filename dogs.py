@@ -38,7 +38,7 @@ def get_classes(dog_id):
     return db.query(sql, [dog_id])
 
 def get_dogs():
-    sql = "SELECT id, dogname FROM register_dog ORDER BY id DESC"
+    sql = "SELECT id AS dog_id, dogname, user_id FROM register_dog ORDER BY id DESC"
     return db.query(sql)
 
 def get_dog(dog_id):
