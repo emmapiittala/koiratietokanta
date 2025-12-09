@@ -75,3 +75,9 @@ INSERT INTO activities (activity) VALUES
 ('Agility'),
 ('Kisoihin'),
 ('Hoitoapua');
+
+CREATE TABLE images (
+    id INTEGER PRIMARY KEY,
+    dog_id INTEGER REFERENCES register_dog(id),
+    image BLOB
+);

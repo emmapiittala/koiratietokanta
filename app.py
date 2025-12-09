@@ -1,5 +1,5 @@
 import secrets
-from flask import Flask, abort
+from flask import Flask, abort, make_response
 import sqlite3
 from flask import Flask
 from flask import url_for
@@ -52,7 +52,6 @@ def show_user(user_id):
             questions.extend(dog_questions)
     return render_template("show_user.html", user=user, dogs=user_dogs, classes=classes,questions=questions)
 
-
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
     dog = dogs.get_dog(dog_id)
@@ -60,8 +59,9 @@ def get_dog(dog_id):
         abort(404)
     classes = dogs.get_classes(dog_id)
     questions = dogs.get_question(dog_id)
+    images = dogs.get_images(dog_id)
     question_text = ""
-    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions, question_text = question_text)
+    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions, question_text = question_text, images = images)
 
 @app.route("/register_dog")
 def register_dog():
@@ -198,6 +198,44 @@ def validate_classes(all_classes, size, temperament, activity):
         elif value and title == "activity" and value not in all_classes["activities"]:
             abort(403)
 
+@app.route("/images/<int:dog_id>")
+def edit_images(dog_id):
+    require_login()
+    dog = dogs.get_dog(dog_id)
+    if dog is None:
+        abort(404)
+    if "user_id" not in session or dog["user_id"] != session["user_id"]:
+        abort(403)
+
+    images = dogs.get_images(dog_id)
+    return render_template("images.html", dog=dog, images=images)
+
+@app.route("/add_image", methods=["POST"])
+def add_image():
+    require_login()
+
+    dog_id = request.form["dog_id"]
+    file = request.files["image"]
+
+    if not file or not file.filename.endswith((".png")):
+        return "VIRHE: väärä tiedostomuoto"
+
+    image = file.read()
+    if len(image) > 100 * 1024:
+        return "VIRHE: liian suuri kuva"
+    dogs.add_image(dog_id, image)
+
+    return redirect("/dogs/" + str(dog_id))
+
+@app.route("/image/<int:image_id>")
+def show_image(image_id):
+    image = dogs.get_image(image_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/png")
+    return response
 
 @app.route("/remove_dog/<int:dog_id>", methods=["GET", "POST"])
 def remove_dog(dog_id):
@@ -250,6 +288,10 @@ def login():
             return redirect("/")
         else:
             return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
+
+def require_login():
+    if "user_id" not in session:
+        abort(403)
 
 @app.route("/logout")
 def logout():

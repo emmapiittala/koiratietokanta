@@ -1,4 +1,5 @@
 import db
+import dogs
 def add_dogs(dogname, breed, age, gender, user_id, classes):
     sql = """INSERT INTO register_dog (dogname, breed, age, gender, user_id)
               VALUES (?, ?, ?, ?, ?)"""
@@ -113,3 +114,15 @@ def get_all_classes():
         "temperaments": [temperament[0] for temperament in temperaments],
         "activities": [activity[0] for activity in activities]
     }
+def get_images(dog_id):
+    sql = "SELECT id FROM images WHERE dog_id = ?"
+    return db.query(sql, [dog_id])
+
+def add_image(dog_id, image):
+    sql = "INSERT INTO images (dog_id, image) VALUES (?, ?)"
+    db.execute(sql, [dog_id, image])
+
+def get_image(image_id):
+    sql = "SELECT image FROM images WHERE id = ?"
+    result = db.query(sql, [image_id])
+    return result[0][0] if result else None

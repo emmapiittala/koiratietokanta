@@ -11,10 +11,12 @@
       <form action="/remove_dog/{{dog.dog_id}}"  method = "GET">
         <button type="submit">Poista koira</button>
       </form>
-            <form action="/images_dog/{{dog.dog_id}}"  method = "GET">
-      <button type="submit">Lisää kuva</button>
+            <form action="/images/{{dog.dog_id}}"  method = "GET">
+      <button type="submit">Lisää kuvat</button>
           </form>
-
+{% for image in images%}
+<img src="/image/{{image.id}}"/>
+{%endfor%}
   {% endif %}
     <h1>{{ dog.dogname }}</h1>
     <p>Rotu: {{ dog.breed }}</p>
