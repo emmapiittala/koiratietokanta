@@ -7,34 +7,28 @@
 <h1>Koiratietokanta</h1>
   {% if session.username %}
  <p>
-  <p>
-    Olet kirjautunut nimellä {{ session.username }} id-numerosi on {{ session.user_id}}
-  </p>
-  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+{% endif %}
 
-    <form action="/logout" method = "get">
-      <button type="submit">Kirjaudu ulos</button>
+    <form action="/find_dog" method = "GET">
+      <button type="submit">Etsi rekisteröityjä koiria</button>
     </form>
-  </p>
-
-  <p>
-    <form action="/register_dog" method = "get">
+{% if session.user_id %}
+    <form action="/register_dog" method = "GET">
       <button type="submit">Rekisteröi koirasi</button>
     </form>
-    </p>
-    {% else %}
-    <p>
-          <form action="/login" method = "get">
-      <button type="submit">Kirjaudu sisään</button>
+    <form action="/logout" method = "GET">
+      <button type="submit">Kirjaudu ulos</button>
     </form>
-    <form action="/register" method = "get">
+{% else %}
+      <form action="/login" method = "GET">
+        <button type="submit">Kirjaudu sisään</button>
+    </form>
+        <form action="/register" method = "GET">
       <button type="submit">Luo tunnus</button>
     </form>
-  </p>
   {% endif %}
-  
-    <form action="/find_dog" method = "get">
-      <button type="submit">Etsi rekisteröityjä koiria</button>
+   </p>
 <h2>Ilmoitukset</h2>
 <ul>
     {% for dog in dogs %}
