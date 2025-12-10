@@ -1,9 +1,7 @@
-<html>
-<head>
-  <title>Rekisteröi Koira</title>
-</head>
-<body>
-<h1>Rekisteröi uusi koira</h1>
+{% extends "layout.html" %}
+  {% block title %}Rekisteröi koira{% endblock %}
+{% block content %}
+<h2>Rekisteröi koira</h2>
     <form action="/create_register_dog" method="POST">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 
@@ -45,11 +43,8 @@
                     <option value="{{ activity }}">{{ activity }}</option>
                 {% endfor %}
             </select><br><br>
-
     <input type="submit" value="Rekisteröi koira">
     </form>
-        <form action="/" method="get">
-    <button type="submit">Takaisin etusivulle</button>
+
         </form>
-</body>
-</html>
+{% endblock %}

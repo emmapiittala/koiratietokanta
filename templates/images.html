@@ -1,10 +1,7 @@
-<html>
-  <head>
-    <title>Ilmoituksen kuvat</title>
-</head>
-
-<body>
-    <h1>{{ dog.dogname }} kuvat</h1>
+{% extends "layout.html" %}
+{% block title %}Lisää uusi kuva{% endblock %}
+{% block content %}
+    <h2>{{ dog.dogname }} kuvat</h2>
     <p>
         Ilmoituksessa on {{ images| count }} kuvaa.
     </p>
@@ -27,11 +24,4 @@
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="submit" value="Lähetä" />
 </form>
-
-    <p>
-        <form method="GET" action="{{ url_for('get_dog', dog_id=dog.dog_id) }}">
-            <button type="submit">Takaisin</button>
-        </form>
-    </p>
-</body>
-</html>
+{% endblock %}

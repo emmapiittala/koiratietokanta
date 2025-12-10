@@ -1,9 +1,8 @@
-<html>
-<head>
-    <title>Muokkaa ilmoitusta</title>
-</head>
-<body>
-<h1>Muokkaa ilmoitusta</h1>
+{% extends "layout.html" %}
+{% block title %}Muokkaa tietoja{% endblock %}
+{% block content %}
+<h2>Muokkaa tietoja</h2>
+<p>
 <form action="/edit_dog/{{dog.dog_id}}" method="POST">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <label for="dogname">Koiran nimi:</label>
@@ -48,3 +47,4 @@
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="submit" value="Päivitä tiedot"><br><br>
 </form>
+{% endblock %}

@@ -1,9 +1,7 @@
-<html>
-  <head>
-    <title>{{ dog.dogname }}</title>
-</head>
-
-<body>
+{% extends "layout.html" %}
+{% block title %}{{dog.dogname}}{% endblock %}
+{% block content %}
+<h2>{{dog.dogname}}</h2>
   {% if dog.user_id  == session.user_id %}
     <form action="/edit_dog/{{dog.dog_id}}"  method = "GET">
       <button type="submit">Muokkaa tietoja</button>
@@ -18,7 +16,6 @@
 <img src="/image/{{image.id}}"/>
 {%endfor%}
   {% endif %}
-    <h1>{{ dog.dogname }}</h1>
     <p>Rotu: {{ dog.breed }}</p>
     <p>Ikä: {{ dog.age }}</p>
     <p>Sukupuoli: {{ dog.gender }}</p>
@@ -65,9 +62,4 @@
 <input type="hidden" name="dog_id" value="{{dog.id}}">
 <p>
   {% endif %}
-  <form method="GET" action="{{url_for('index')}}">
-    <button type="submit">Takaisin etusivulle</button>
-</p>
-      </form>
-    </body>
-</html>
+{% endblock %}

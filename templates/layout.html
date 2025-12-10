@@ -1,0 +1,39 @@
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+<h1>Koiratietokanta</h1>
+  {% if session.username %}
+ <p>
+    Olet kirjautunut nimellä {{ session.username }}
+{% endif %}
+        <form action="/" method="get">
+        <button type="submit">Etusivu</button>
+    </form>
+    <form action="/find_dog" method = "GET">
+      <button type="submit">Etsi rekisteröityjä koiria</button>
+    </form>
+{% if session.user_id %}
+    <form action="/register_dog" method = "GET">
+      <button type="submit">Rekisteröi koirasi</button>
+    </form>
+    <form action="/logout" method = "GET">
+      <button type="submit">Kirjaudu ulos</button>
+    </form>
+{% else %}
+      <form action="/login" method = "GET">
+        <button type="submit">Kirjaudu sisään</button>
+    </form>
+        <form action="/register" method = "GET">
+      <button type="submit">Luo tunnus</button>
+    </form>
+  {% endif %}
+   </p>
+    {% block content %}{% endblock %}
+</body>
+
+</html>

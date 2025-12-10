@@ -1,20 +1,14 @@
-
-<head>
-    <title>Käyttäjä: {{ user.username }}</title>
-</head>
-<body>
-    <h1>Käyttäjä: {{ user.username }}</h1>
-    <p>
+{% extends "layout.html" %}
+{% block title %}Käyttäjä {{user.username}}{% endblock %}
+{% block content %}
+<h1>Käyttäjä {{user.username}}</h1>
+<p>
     Käyttäjä on rekisteröinyt: {{dogs| count}} kpl koiria.
     </p>
-    <h2> Käyttäjän rekisteröidyt koirat: </h2>
+    <h3> Käyttäjän rekisteröidyt koirat: </h3>
     <ul>
         {% for dog in dogs %}
             <li><a href="/dogs/{{ dog.dog_id }}">{{ dog.dogname }}</a></li>
         {% endfor %}
     </ul>
-    <p>
-    <a href="/">Takaisin etusivulle</a>
-    </p>
-</body>
-</html>
+{% endblock %}

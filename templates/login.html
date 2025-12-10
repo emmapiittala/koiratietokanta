@@ -1,31 +1,19 @@
-<html>
+{% extends "layout.html" %}
+{% block title %}Kirjaudu sisään{% endblock %}
+{% block content %}
 
-<head>
-  <title>Kirjautuminen</title>
-</head>
-<body>
-  <h1>Kirjaudu sisään</h1>
-  {% if error %}
+<h2>Kirjaudu sisään</h2>
+{% if error %}
    <p style="color: red;">{{ error }}</p>
 {% endif %}
-
-  {% if success %}
+{% if success %}
    <p style="color: green;">{{ success }}</p>
 {% endif %}
-<p>
-</p>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  {% else %}
+{% if not error and not success %}
   <form action="/login" method="post">
     <p>
       Tunnus: <br />
-      <input type="text" name="username"required />
+      <input type="text" name="username" required />
     </p>
     <p>
       Salasana: <br />
@@ -33,10 +21,5 @@
     </p>
     <input type="submit" value="Kirjaudu" />
   </form>
-  {% endif %}
-<form action="/" method = "GET">
-    <button type="submit">Takaisin etusivulle</button>
-      </form>
-</body>
-
-</html>
+{% endif %}
+{% endblock %}

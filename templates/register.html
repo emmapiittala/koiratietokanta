@@ -1,14 +1,10 @@
-<html>
-  <head>
-    <title>Rekisteröinti</title>
-</head>
-
-<body>
-  <h1>Rekisteröinti</h1>
+{% extends "layout.html" %}
+{% block title %}Kirjaudu sisään{% endblock %}
+{% block content %}
+<h2>Luo tunnus</h2>
     {% if error %}
       <p style="color: red;">{{ error }}</p>
     {% endif %}
-
     {% if success %}
       <p style="color: green;">{{ success }}</p>
         {% endif %}
@@ -31,7 +27,4 @@
 
 </p>
     </form>
-    <form action="/" method = "GET">
-    <button type="submit">Takaisin etusivulle</button>
-  </body>
-</html>
+{% endblock %}

@@ -1,16 +1,12 @@
-<html>
-    <head>
-        <title>Poista koira</title>
-    </head>
-<body>
+{% extends "layout.html" %}
+{% block title %}Poista koira{% endblock %}
+{% block content %}
     <h1>Poista koira</h1>
         <p>Oletko varma, että haluat poistaa koiran: {{ dog.dogname }}?</p>
-    
     <form method="POST">
         <input type="submit" value="Poista koira">
     </form>
 <form method="GET" action="{{ url_for('get_dog', dog_id=dog.dog_id) }}">
     <input type="submit" value="Peruuta">
 </form>
-</body>
-</html>
+{% endblock%}

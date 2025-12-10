@@ -1,41 +1,13 @@
-<html>
-
-<head>
-  <title>Koiratietokanta</title>
-</head>
-<body>
-<h1>Koiratietokanta</h1>
-  {% if session.username %}
- <p>
-    Olet kirjautunut nimellä {{ session.username }}
-{% endif %}
-
-    <form action="/find_dog" method = "GET">
-      <button type="submit">Etsi rekisteröityjä koiria</button>
-    </form>
-{% if session.user_id %}
-    <form action="/register_dog" method = "GET">
-      <button type="submit">Rekisteröi koirasi</button>
-    </form>
-    <form action="/logout" method = "GET">
-      <button type="submit">Kirjaudu ulos</button>
-    </form>
-{% else %}
-      <form action="/login" method = "GET">
-        <button type="submit">Kirjaudu sisään</button>
-    </form>
-        <form action="/register" method = "GET">
-      <button type="submit">Luo tunnus</button>
-    </form>
-  {% endif %}
-   </p>
+{% extends "layout.html" %}
+  {% block title %}Koiratietokanta{% endblock %}
+{% block content %}
 <h2>Ilmoitukset</h2>
 <ul>
     {% for dog in dogs %}
         <li>
             <a href="/dogs/{{ dog.id }}"><strong>{{ dog.dogname }}</strong></a> Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
         </li>
-    {% endfor %}
+        {% endfor %}
+
 </ul>
-</body>
-</html>
+    {% endblock %}
