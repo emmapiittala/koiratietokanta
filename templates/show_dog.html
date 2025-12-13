@@ -21,24 +21,21 @@
     <p>Sukupuoli: {{ dog.gender }}</p>
     <p>Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
 {% if classes %}
-<p>
-  Luokat:
-  <ul>
-    {% for class in classes %}
-      {%if class.size%}
-      <li>Koko: {{ class.size }}</li>
-      {%endif%}
-       {%if class.temperament%}
-       <li>Luonne: {{ class.temperament }}</li>
-        {%endif%}
-        {%if class.activity%}
-       <li>Aktiviteetti: {{ class.activity }}</li>
-       {%endif%}
-      </li>
-    {% endfor %}
-  </ul>
-</p>
-{% endif%}
+    <p>Luokat:</p>
+    <ul>
+        {% for class in classes %}
+            {% if class.size %}
+                <li>Koko: {{ class.size }}</li>
+            {% endif %}
+            {% if class.temperament %}
+                <li>Luonne: {{ class.temperament }}</li>
+            {% endif %}
+            {% if class.activity %}
+                <li>Aktiviteetti: {{ class.activity }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}
 {% if questions %}
     <h2>Kysymykset:</h2>
     <ul>
