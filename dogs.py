@@ -53,7 +53,8 @@ def get_dog(dog_id):
         dc.temperament,
         dc.activity,
         u.id AS user_id,
-        u.username AS user_name
+        u.username AS user_name,
+        (SELECT COUNT(*) FROM questions WHERE dog_id = rd.id) AS question_count
     FROM register_dog AS rd
     JOIN users AS u ON rd.user_id = u.id
     LEFT JOIN dog_classes AS dc ON rd.id = dc.dog_id
@@ -129,3 +130,8 @@ def get_image(image_id):
     sql = "SELECT image FROM images WHERE id = ?"
     result = db.query(sql, [image_id])
     return result[0][0] if result else None
+
+def get_question_count(dog_id):
+    sql = "SELECT COUNT(*) FROM questions WHERE dog_id = ?"
+    result = db.query(sql, [dog_id])
+    return result[0][0] if result else 0

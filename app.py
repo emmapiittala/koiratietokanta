@@ -16,13 +16,19 @@ app.secret_key = config.secret_key
 def index():
     all_dogs = dogs.get_dogs()
     dogs_with_usernames = []
+
+    if not all_dogs:
+        return render_template("index.html", dogs=[])
+
     for dog in all_dogs:
         user = users.get_user(dog['user_id'])
+        question_count = dogs.get_question_count(dog['dog_id'])
         dog_info = {
             'id': dog['dog_id'],
             'dogname': dog['dogname'],
             'user_id': dog['user_id'],
-            'user_name': user['username'] if user else "Tuntematon"
+            'user_name': user['username'] if user else "Tuntematon",
+            'question_count': question_count
         }
         dogs_with_usernames.append(dog_info)
 

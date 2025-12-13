@@ -4,9 +4,11 @@
 <h2>Ilmoitukset</h2>
 <ul>
     {% for dog in dogs %}
-        <li>
-            <a href="/dogs/{{ dog.id }}"><strong>{{ dog.dogname }}</strong></a> Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
-        </li>
+    <div class="dogs">
+      <a href="/dogs/{{ dog.id }}"><strong>{{ dog.dogname }}</strong></a><br/>
+      Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a><br/>
+      Kysymykset: {{ dog.question_count }}
+      </div>
         {% endfor %}
 
 </ul>
