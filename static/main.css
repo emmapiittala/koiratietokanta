@@ -10,3 +10,10 @@ body {
   margin: 1em;
   padding: 0.2em 0.5em;
 }
+.info {
+  border: 2px solid rgba(65, 55, 30, 0.068);
+  margin: 1em;
+  padding: 0.5em;
+  background-color: rgba(74, 63, 34, 0.068);
+  color: rgb(0, 0, 0);
+}

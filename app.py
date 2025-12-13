@@ -1,5 +1,5 @@
 import secrets
-from flask import Flask, abort, make_response
+from flask import Flask, abort, flash, make_response
 import sqlite3
 from flask import Flask
 from flask import url_for
@@ -103,7 +103,7 @@ def create_questions():
     textarea = request.form["textarea"]
 
     dogs.add_question(dog_id, user_id, textarea)
-
+    flash("Kysymys lähetetty")
     return redirect("/dogs/" + str(dog_id))
 
 @app.route("/create_register_dog", methods=["POST"])
@@ -155,6 +155,7 @@ def create_register_dog():
     dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
     dog_id = db.last_insert_id()
+    flash("Koira rekisteröity onnistuneesti.")
     return redirect("/dogs/" + str(dog_id))
 
 @app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
@@ -179,16 +180,21 @@ def edit_dog(dog_id):
         activity = request.form.get("activity")
 
         if not dogname or len(dogname) >= 50:
-            return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä", 403
+            flash("VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä")
+            return redirect("/dogs/" + str(dog_id))
         if len(breed) >= 50:
-            return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä", 403
+            flash("VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä")
+            return redirect("/dogs/" + str(dog_id))
         if int(age) < 0:
-            return "VIRHE: Ikä ei voi olla negatiivinen.", 403
+            flash("VIRHE: Ikä ei voi olla negatiivinen.")
+            return redirect("/dogs/" + str(dog_id))
         if int(age) >= 35:
-            return "VIRHE: Tarkista ikä", 403
+            flash("VIRHE: Tarkista ikä")
+            return redirect("/dogs/" + str(dog_id))
 
         validate_classes(all_classes, size, temperament, activity)
         dogs.update_dog(dog_id, dogname, breed, age, gender, size, temperament, activity)
+        flash("Koiran tiedot päivitetty")
         return redirect(url_for('get_dog', dog_id=dog_id))
 
     return render_template('edit_dog.html', dog=dog,
@@ -225,20 +231,26 @@ def add_image():
     dog_id = request.form["dog_id"]
     file = request.files["image"]
     dog = dogs.get_dog(dog_id)
+
     if dog is None:
-            abort(404)
+        abort(404)
 
     if "user_id" not in session or dog["user_id"] != session["user_id"]:
         abort(403)
+
     if not file or not file.filename.endswith((".png")):
-        return "VIRHE: väärä tiedostomuoto"
+        flash("VIRHE: Lähettämäsi tiedosto ei ole .png-tiedosto")
+        return redirect("/add_image")
 
     image = file.read()
     if len(image) > 100 * 1024:
-        return "VIRHE: liian suuri kuva"
-    dogs.add_image(dog_id, image)
+        flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
+        return redirect("/add_image")
 
+    dogs.add_image(dog_id, image)
+    flash("Kuva tallennettu")
     return redirect("/dogs/" + str(dog_id))
+
 
 @app.route("/remove_images", methods=["POST"])
 def remove_images():
@@ -253,7 +265,7 @@ def remove_images():
 
     for image_id in request.form.getlist("image_id"):
         dogs.remove_image(dog_id, image_id)
-
+    flash("Kuvia poistettu")
     return redirect("/images/" + str(dog_id))
 
 @app.route("/image/<int:image_id>")
@@ -292,12 +304,15 @@ def create():
     password2 = request.form["password2"]
 
     if password1 != password2:
-        return render_template("register.html", error="VIRHE: salasanat eivät ole samat")
+        flash("VIRHE: salasanat eivät ole samat")
+        return render_template("register.html")
     try:
         users.create_user(username, password1)
-        return render_template("register.html", success="Tunnus luotu onnistuneesti.")
+        flash("Tunnus luotu onnistuneesti.")
+        return render_template("register.html")
     except sqlite3.IntegrityError:
-        return render_template("register.html", error="VIRHE: tunnus on jo varattu")
+        flash("VIRHE: tunnus on jo varattu")
+        return render_template("register.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -316,7 +331,8 @@ def login():
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
-            return render_template("login.html", error="VIRHE: Väärä tunnus tai salasana")
+            flash("VIRHE: Väärä tunnus tai salasana")
+            return render_template("login.html")
 
 def require_login():
     if "user_id" not in session:
