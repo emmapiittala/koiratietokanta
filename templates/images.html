@@ -11,6 +11,7 @@
     {% endfor %}
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Poista valitut" />
     </p>
 </form>
@@ -22,6 +23,7 @@
         <small><i>Voit lisätä ainoastaan .png - tiedostoja.</i></small>
     </p>
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
 </form>
 

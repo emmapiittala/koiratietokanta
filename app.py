@@ -72,6 +72,7 @@ def get_dog(dog_id):
 
 @app.route("/register_dog")
 def register_dog():
+    session["csrf_token"] = secrets.token_hex(16)
     all_classes = dogs.get_all_classes()
     return render_template("register_dog.html", 
         sizes=all_classes["sizes"], 
@@ -85,6 +86,7 @@ def list_dogs():
 
 @app.route("/create_questions", methods=["POST"])
 def create_questions():
+    check_csrf()
     if "user_id" not in session:
         abort(403)
     dog_id = request.form["dog_id"]
@@ -159,6 +161,8 @@ def edit_dog(dog_id):
 
     if "user_id" not in session or dog["user_id"] != session["user_id"]:
         abort(403)
+    if request.method == 'GET':
+        session["csrf_token"] = secrets.token_hex(16)
 
     all_classes = dogs.get_all_classes()
 
@@ -220,6 +224,7 @@ def edit_images(dog_id):
 @app.route("/add_image", methods=["POST"])
 def add_image():
     require_login()
+    check_csrf()
 
     dog_id = request.form["dog_id"]
     file = request.files["image"]
@@ -248,6 +253,8 @@ def add_image():
 @app.route("/remove_images", methods=["POST"])
 def remove_images():
     require_login()
+    check_csrf()
+
     dog_id = request.form["dog_id"]
     dog = dogs.get_dog(dog_id)
     if dog is None:
@@ -279,7 +286,10 @@ def remove_dog(dog_id):
     if dog["user_id"] != session["user_id"]:
         abort(403)
 
+    if request.method == "GET":
+        session["csrf_token"] = secrets.token_hex(16)
     if request.method == "POST":
+        check_csrf()
         dogs.remove_dog(dog_id)
         return redirect(url_for('index'))
     else:
@@ -288,10 +298,12 @@ def remove_dog(dog_id):
 
 @app.route("/register")
 def register():
+    session["csrf_token"] = secrets.token.hex_(16)
     return render_template("register.html")
 
 @app.route("/create", methods=["POST"])
 def create():
+    check_csrf()
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
@@ -311,9 +323,11 @@ def create():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        session["csrf_token"] = secrets.token_hex(16)
         return render_template("login.html")
 
     if request.method == "POST":
+        check_csrf()
         username = request.form["username"]
         password = request.form["password"]
 
@@ -321,7 +335,6 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
-            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: Väärä tunnus tai salasana")

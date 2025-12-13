@@ -10,16 +10,18 @@
    <p style="color: green;">{{ success }}</p>
 {% endif %}
 {% if not error and not success %}
-  <form action="/login" method="post">
+<form action="/login" method="POST">
     <p>
-      Tunnus: <br />
-      <input type="text" name="username" required />
+        Tunnus: <br />
+        <input type="text" name="username" required />
     </p>
     <p>
-      Salasana: <br />
-      <input type="password" name="password" required />
+        Salasana: <br />
+        <input type="password" name="password" required />
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Kirjaudu" />
-  </form>
+</form>
+
 {% endif %}
 {% endblock %}

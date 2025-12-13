@@ -54,6 +54,7 @@
 <form action="/create_questions" method="post">
     <textarea name="textarea" rows="10" cols="50" required></textarea>
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <br></br><input type="submit" value="Jätä kysymys">
 </form>
 <input type="hidden" name="dog_id" value="{{dog.id}}">
