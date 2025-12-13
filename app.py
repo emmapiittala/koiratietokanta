@@ -1,13 +1,15 @@
 import secrets
-from flask import Flask, abort, flash, make_response
 import sqlite3
+
 from flask import Flask
+from flask import Flask, abort, flash, make_response
 from flask import url_for
 from flask import redirect, render_template, request, session
 import markupsafe
+
 import db
 import dogs
-import users
+import users 
 import config
 
 app = Flask(__name__)
