@@ -4,6 +4,7 @@ import sqlite3
 from flask import Flask
 from flask import url_for
 from flask import redirect, render_template, request, session
+import markupsafe
 import db
 import dogs
 import users
@@ -61,6 +62,7 @@ def show_user(user_id):
 
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
+    session["csrf_token"] = secrets.token_hex(16)
     dog = dogs.get_dog(dog_id)
     if dog is None:
         abort(404)
@@ -365,3 +367,9 @@ def check_csrf():
 @app.route("/new_message", methods=["POST"])
 def new_message():
     check_csrf()
+
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
