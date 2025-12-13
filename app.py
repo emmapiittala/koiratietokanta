@@ -83,17 +83,6 @@ def list_dogs():
     all_dogs = dogs.get_dogs()
     return render_template("list_dogs.html", dogs=all_dogs)
 
-@app.route("/find_dog")
-def search_dog():
-    query = request.args.get("query")
-    if query:
-        results = dogs.find_dog(query)
-    else:
-        query = ""
-        results = []
-    return render_template("find_dog.html", query=query, result=results)
-
-
 @app.route("/create_questions", methods=["POST"])
 def create_questions():
     if "user_id" not in session:
@@ -129,14 +118,18 @@ def create_register_dog():
     if activity:
         classes.append(("activity", activity))
 
-    if len(dogname) >= 50:
-        return "VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä"
-    if len(breed) >= 50:
-        return "VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä"
-    if int(age) < 0:
-        return "VIRHE: Ikä ei voi olla negatiivinen."
-    if int(age) >= 35:
-        return "VIRHE: Tarkista ikä"
+        if not dogname or len(dogname) >= 50:
+            flash("VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä")
+            return redirect("/dogs/" + str(dog_id))
+        if len(breed) >= 50:
+            flash("VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä")
+            return redirect("/dogs/" + str(dog_id))
+        if int(age) < 0:
+            flash("VIRHE: Ikä ei voi olla negatiivinen.")
+            return redirect("/dogs/" + str(dog_id))
+        if int(age) >= 35:
+            flash("VIRHE: Tarkista ikä")
+            return redirect("/dogs/" + str(dog_id))
 
     all_classes = dogs.get_all_classes()
 
