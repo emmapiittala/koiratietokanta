@@ -2,24 +2,24 @@
 {% block title %}{{dog.dogname}}{% endblock %}
 {% block content %}
 <h2>{{dog.dogname}}</h2>
-  {% if dog.user_id  == session.user_id %}
-    <form action="/edit_dog/{{dog.dog_id}}"  method = "GET">
-      <button type="submit">Muokkaa tietoja</button>
+{% if dog.user_id  == session.user_id %}
+    <form action="/edit_dog/{{dog.dog_id}}" method="GET">
+        <button type="submit">Muokkaa tietoja</button>
     </form>
-      <form action="/remove_dog/{{dog.dog_id}}"  method = "GET">
+    <form action="/remove_dog/{{dog.dog_id}}" method="GET">
         <button type="submit">Poista koira</button>
-      </form>
-            <form action="/images/{{dog.dog_id}}"  method = "GET">
-      <button type="submit">Kuvat</button>
-          </form>
-{% for image in images%}
-<img src="/image/{{ image.id }}" alt="Ilmoituksen kuva" />
-{%endfor%}
-  {% endif %}
-    <p>Rotu: {{ dog.breed }}</p>
-    <p>Ikä: {{ dog.age }}</p>
-    <p>Sukupuoli: {{ dog.gender }}</p>
-    <p>Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
+    </form>
+    <form action="/images/{{dog.dog_id}}" method="GET">
+        <button type="submit">Kuvat</button>
+    </form>
+    {% for image in images %}
+        <img src="/image/{{ image.id }}" alt="Ilmoituksen kuva" />
+    {% endfor %}
+{% endif %}
+<p>Rotu: {{ dog.breed }}</p>
+<p>Ikä: {{ dog.age }}</p>
+<p>Sukupuoli: {{ dog.gender }}</p>
+<p>Ilmoittaja: <a href="/user/{{ dog.user_id }}">{{ dog.user_name }}</a></p>
 {% if classes %}
     <p>Luokat:</p>
     <ul>
@@ -49,15 +49,16 @@
 
 {% if session.username %}
 <h2>Kysyttävää koirasta {{ dog.dogname }}?</h2>
-    <p><small>Kiinnostaako jokin aktiviteetti {{dog.dogname}}n ja {{dog.username}}n kanssa? Tai onko sinulla jotain kysyttävää?
-      Kysy lisää tässä!</small></p>
+<p><small>Kiinnostaako jokin aktiviteetti {{dog.dogname}}n ja {{dog.user_name}}n kanssa? Tai onko sinulla jotain kysyttävää? Kysy lisää tässä!</small></p>
 <form action="/create_questions" method="post">
-    <textarea name="textarea" rows="10" cols="50" required></textarea>
+    <label for="textarea">Kysymyksesi:</label><br>
+    <textarea id="textarea" name="textarea" rows="10" cols="50" required></textarea>
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <br></br><input type="submit" value="Jätä kysymys">
+    <br>
+    <input type="submit" value="Jätä kysymys">
 </form>
 <input type="hidden" name="dog_id" value="{{dog.id}}">
 <p>
-  {% endif %}
+{% endif %}
 {% endblock %}

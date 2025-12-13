@@ -4,9 +4,8 @@
 <h3>Etsi koiria</h3>
     <form action="/find_dog" method="GET">
         <p>
-            Hakusana: <input type="text" name="query" value="{{queston_text }}">
-        </p>
-        <p>
+            <label for="query">Hakusana</label>:
+    <input type="text" name="query" id="query" value="{{ queston_text }}"><br/>
             <small><i>Hakusanoja voivat olla koiran nimi, ikä, rotu, sukupuoli tai ilmoittajan nimi.</i></small>
         </p>
         <input type="submit" value="Lähetä">

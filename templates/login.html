@@ -12,12 +12,12 @@
 {% if not error and not success %}
 <form action="/login" method="POST">
     <p>
-        Tunnus: <br />
-        <input type="text" name="username" required />
+    <label for="username">Tunnus</label>: <br />
+    <input type="text" name="username" id="username" />
     </p>
     <p>
-        Salasana: <br />
-        <input type="password" name="password" required />
+    <label for="password">Salasana</label>: <br />
+    <input type="password" name="password" id="password" />
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Kirjaudu" />

@@ -300,8 +300,9 @@ def remove_dog(dog_id):
 
 @app.route("/register")
 def register():
-    session["csrf_token"] = secrets.token.hex_(16)
+    session["csrf_token"] = secrets.token_hex(16)
     return render_template("register.html")
+
 
 @app.route("/create", methods=["POST"])
 def create():

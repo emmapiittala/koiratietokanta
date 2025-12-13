@@ -1,31 +1,28 @@
 {% extends "layout.html" %}
-{% block title %}Kirjaudu sisään{% endblock %}
+{% block title %}Luo tunnus{% endblock %}
 {% block content %}
 <h2>Luo tunnus</h2>
-    {% if error %}
-      <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    {% if success %}
-      <p style="color: green;">{{ success }}</p>
-        {% endif %}
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+{% if success %}
+    <p style="color: green;">{{ success }}</p>
+{% endif %}
 
-  <form action="/create" method="POST">
+<form action="/create" method="POST">
     <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
+        <label for="username">Tunnus:</label><br />
+        <input type="text" id="username" name="username" required />
     </p>
-      <p>
-        Salasana: <br />
-          <input type="password" name="password1" />
-        </p>
-  <p>
-    Salasana uudestaan: <br />
-      <input type="password" name="password2" />
-        </p>
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-          <input type="submit" value="Luo tunnus" />
-      <p>
-
-</p>
-    </form>
+    <p>
+        <label for="password1">Salasana:</label><br />
+        <input type="password" id="password1" name="password1" required />
+    </p>
+    <p>
+        <label for="password2">Salasana uudestaan:</label><br />
+        <input type="password" id="password2" name="password2" required />
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Luo tunnus" />
+</form>
 {% endblock %}
