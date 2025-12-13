@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
   {% block title %}Koiratietokanta{% endblock %}
 {% block content %}
-<h2>Etsi koira</h2>
+<h3>Etsi koiria</h3>
     <form action="/find_dog" method="GET">
         <p>
             Hakusana: <input type="text" name="query" value="{{queston_text }}">
         </p>
         <p>
-            <small>Hakusanoja voivat olla koiran nimi, ikä, rotu, sukupuoli tai ilmoittajan nimi</small>
+            <small><i>Hakusanoja voivat olla koiran nimi, ikä, rotu, sukupuoli tai ilmoittajan nimi.</i></small>
         </p>
         <input type="submit" value="Lähetä">
     </form>
     {% if query %}
-        <h2>Haullasi löytyi nämä ilmoitukset</h2>
+        <h3>Haullasi löytyi nämä ilmoitukset</h3>
         <ul>
             {% for dog in result %}
                 <li>
