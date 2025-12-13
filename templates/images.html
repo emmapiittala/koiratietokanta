@@ -16,12 +16,16 @@
     <input type="submit" value="Poista valitut" />
         </p>
     </form>
-    <h2> Lisää uusi kuva</h2>
+    <h4> Lisää uusi kuva</h4>
+
 <form action="/add_image" method="post" enctype="multipart/form-data">
     <p>
-        Kuva: <input type="file" name="image" accept=".png" required />
+        Kuva: <input type="file" name="image" accept=".png" required /><br/>
+        <small><i>Voit lisätä ainoastaan .png - tiedostoja.</i></small>
     </p>
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="submit" value="Lähetä" />
+</form><form method="GET" action="{{ url_for('get_dog', dog_id=dog.dog_id) }}">
+    <input type="submit" value="Peruuta">
 </form>
 {% endblock %}

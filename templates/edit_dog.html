@@ -45,6 +45,9 @@
     </select><br><br>
 
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
-    <input type="submit" value="Päivitä tiedot"><br><br>
+    <input type="submit" value="Päivitä tiedot">
+</form>
+<form action="/dogs/{{ dog.dog_id }}" method="GET">
+    <button type="submit">Peruuta</button>
 </form>
 {% endblock %}
