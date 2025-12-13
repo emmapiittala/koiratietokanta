@@ -6,7 +6,7 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 🐾 Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 
 
-🐾 Käyttäjä pystyy lisäämään sovellukseen koiran, antamaan sille nimen, rodun ja iän. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään tietoja.
+🐾 Käyttäjä pystyy lisäämään sovellukseen koiran, antamaan sille nimen, rodun ja iän. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään tietoja sekä lisäämään kuvia.
 
 
 🐾 Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät koirat.
@@ -18,10 +18,7 @@ Tietokannat & web-ohjelmoinnit 2025 kurssi.
 🐾 Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja kuten kuinka monta koiraa omistaa ja niiden tiedot sekä kuinka monta kertaa on jättänyt ilmoituksen.
 
 
-🐾 Käyttäjä pystyy valitsemaan koirallensa yhden tai useamman luokan, kuten onko koira minkä kokoinen tai millainen sen luonne on. Mahdolliset luokat ovat tietokannassa.
-
-
-🐾 Sovelluksessa on pääasiallisen tietokohteen lisäksi toissijainen tietokohde, jossa pystyy kertomaan enemmän koirastaan, esim. etsii seuraa agilityyn, lenkeille, kisoihin, koirapuistoon, tarvitsee välillä ulkoiluttajaa.
+🐾 Käyttäjä pystyy valitsemaan koirallensa yhden tai useamman luokan, kuten onko koira minkä kokoinen tai millainen sen luonne on tai mihin aktiviteettiin etsii seuraa. Mahdolliset luokat ovat tietokannassa.
 
 
 
@@ -47,9 +44,12 @@ source venv/bin/activate
  ```bash
 pip install flask
 ```
-🐾 Luo tietokanta lisäämällä komentoriville: 
+🐾 Luo tietokanta lisäämällä komentoriville nämä: 
 ```bash
 sqlite3 database.db < schema.sql
+```
+```bash
+sqlite3 database.db < init.sql
 ```
 
 🐾 Kirjoita komentoriville: flask run <br>
@@ -61,5 +61,3 @@ flask run
 🐾 Liitettyä linkin selaimeen, pääset koiratietokannan nettisivuille. 
 
 
-🐾Tässä versiossa pystyt luomaan tunnuksen, kirjautumaan sisään, etsimään ilmoituksia ja vain kirjautuneet käyttäjät pystyvät myös luomaan ilmoituksia sekä ilmoituksen jättänyt pystyy poistamaan ilmoituksensa.  
- Sovelluksessa on käyttäjäsivut ja siellä näkyy käyttäjän lisäämät koirat sekä kuinka monta ilmoitusta hän on jättänyt. Käyttäjä pystyy valitsemaann useamman luokittelun sekä koiraan liittyviä kysymyksiä pystyy jättämään. 
