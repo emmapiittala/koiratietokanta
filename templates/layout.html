@@ -1,37 +1,28 @@
-<html>
-
 <head>
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="/static/main.css">
 </head>
-
 <body>
-<h1>Koiratietokanta</h1>
+    <header class="header">
+        <h1>Koiratietokanta</h1>
+    </header>
+<div class="nav">
+  <p>
+    <a href="/">Etusivu</a> |
+    <a href="/find_dog">Etsi rekisteröityjä koiria</a> |
   {% if session.user_id %}
- <p>
-    Olet kirjautunut nimellä <a href="/user/{{ session.user_id}}">{{ session.username }}</a>
-{% endif %}
-        <form action="/" method="get">
-        <button type="submit">Etusivu</button>
-    </form>
-    <form action="/find_dog" method = "GET">
-      <button type="submit">Etsi rekisteröityjä koiria</button>
-    </form>
-{% if session.user_id %}
-    <form action="/register_dog" method = "GET">
-      <button type="submit">Rekisteröi koirasi</button>
-    </form>
-    <form action="/logout" method = "GET">
-      <button type="submit">Kirjaudu ulos</button>
-    </form>
-{% else %}
-      <form action="/login" method = "GET">
-        <button type="submit">Kirjaudu sisään</button>
-    </form>
-        <form action="/register" method = "GET">
-      <button type="submit">Luo tunnus</button>
-    </form>
+    <a href="/register_dog">Rekisteröi koirasi</a> |
+    <a href="/logout">Kirjaudu ulos</a>
+  {% else %}
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo tunnus</a>
   {% endif %}
+    {% if session.user_id %}
+ <p>
+    Olet kirjautunut nimellä: <a href="/user/{{ session.user_id}}">{{ session.username }}</a>
+{% endif %}
+  </div>
+  </p>
    </p>
   {% for message in get_flashed_messages() %}
   <div class="info">
@@ -40,5 +31,3 @@
   {% endfor %}
     {% block content %}{% endblock %}
 </body>
-
-</html>
