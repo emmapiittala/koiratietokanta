@@ -4,6 +4,7 @@ import sqlite3
 from flask import Flask
 from flask import url_for
 from flask import redirect, render_template, request, session
+import db
 import dogs
 import users
 import config
@@ -153,7 +154,8 @@ def create_register_dog():
 
     dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
-    return redirect("/")
+    dog_id = db.last_insert_id()
+    return redirect("/dogs/" + str(dog_id))
 
 @app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
 def edit_dog(dog_id):
