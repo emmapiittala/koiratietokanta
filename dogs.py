@@ -82,9 +82,11 @@ def remove_dog(dog_id):
     sql = "DELETE FROM dog_classes WHERE dog_id = ?"
     db.execute(sql, [dog_id])
 
-    sql = "DELETE FROM register_dog WHERE id = ?"
+    sql = "DELETE FROM images WHERE dog_id = ?"
     db.execute(sql, [dog_id])
 
+    sql = "DELETE FROM register_dog WHERE id = ?"
+    db.execute(sql, [dog_id])
 
 def find_dog(query):
     sql = """SELECT rd.id AS dog_id, rd.dogname, u.username, rd.user_id
@@ -126,6 +128,7 @@ def add_image(dog_id, image):
 def remove_image(dog_id, image_id):
     sql = "DELETE FROM images WHERE id = ? AND dog_id = ?"
     db.execute(sql, [image_id, dog_id])
+    
 def get_image(image_id):
     sql = "SELECT image FROM images WHERE id = ?"
     result = db.query(sql, [image_id])
