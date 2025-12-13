@@ -13,7 +13,7 @@
       <button type="submit">Kuvat</button>
           </form>
 {% for image in images%}
-<img src="/image/{{image.id}}"/>
+<img src="/image/{{ image.id }}" alt="Ilmoituksen kuva" />
 {%endfor%}
   {% endif %}
     <p>Rotu: {{ dog.breed }}</p>
