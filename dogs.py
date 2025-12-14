@@ -1,5 +1,5 @@
 import db
-import dogs
+
 def add_dogs(dogname, breed, age, gender, user_id, classes):
     sql = """INSERT INTO register_dog (dogname, breed, age, gender, user_id)
               VALUES (?, ?, ?, ?, ?)"""
@@ -19,12 +19,12 @@ def add_dogs(dogname, breed, age, gender, user_id, classes):
             activity = value
 
     sql = "INSERT INTO dog_classes(dog_id, size, temperament, activity) VALUES (?, ?, ?, ?)"
-    db.execute(sql, [dog_id, size, temperament, activity])  # Anna kaikki kolme arvoa
+    db.execute(sql, [dog_id, size, temperament, activity])
 
 def add_question(dog_id, user_id, textarea):
-        sql = """INSERT INTO questions (dog_id, user_id, textarea)
-                  VALUES (?, ?, ?)"""
-        db.execute(sql, [dog_id, user_id, textarea])
+    sql = """INSERT INTO questions (dog_id, user_id, textarea)
+                VALUES (?, ?, ?)"""
+    db.execute(sql, [dog_id, user_id, textarea])
 
 def get_question(dog_id):
     sql = """SELECT questions.textarea, questions.user_id, questions.dog_id, users.username
@@ -128,7 +128,7 @@ def add_image(dog_id, image):
 def remove_image(dog_id, image_id):
     sql = "DELETE FROM images WHERE id = ? AND dog_id = ?"
     db.execute(sql, [image_id, dog_id])
-    
+
 def get_image(image_id):
     sql = "SELECT image FROM images WHERE id = ?"
     result = db.query(sql, [image_id])

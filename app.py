@@ -1,20 +1,15 @@
 import secrets
 import sqlite3
-
-from flask import Flask
 from flask import Flask, abort, flash, make_response
 from flask import url_for
 from flask import redirect, render_template, request, session
 import markupsafe
-
-import db
 import dogs
-import users 
+import users
 import config
 
 app = Flask(__name__)
-app.secret_key = config.secret_key
-
+app.secret_key = config.SECRET_KEY
 
 @app.route("/")
 def index():
@@ -46,7 +41,8 @@ def find_dog():
         results = dogs.find_dog(query)
     else:
         results = []
-    return render_template("find_dog.html", query=query, result=results, queston_text = queston_text)
+    return render_template("find_dog.html", query=query, result=results,
+                           queston_text = queston_text)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -60,7 +56,8 @@ def show_user(user_id):
         for dog in user_dogs:
             dog_questions = dogs.get_question(dog['dog_id'])
             questions.extend(dog_questions)
-    return render_template("show_user.html", user=user, dogs=user_dogs, classes=classes,questions=questions)
+    return render_template("show_user.html", user=user, dogs=user_dogs,
+                           classes=classes,questions=questions)
 
 @app.route("/dogs/<int:dog_id>")
 def get_dog(dog_id):
@@ -72,15 +69,16 @@ def get_dog(dog_id):
     questions = dogs.get_question(dog_id)
     images = dogs.get_images(dog_id)
     question_text = ""
-    return render_template("show_dog.html", dog=dog, classes = classes, questions = questions, question_text = question_text, images = images)
+    return render_template("show_dog.html", dog=dog, classes = classes,
+                           questions = questions, question_text = question_text, images = images)
 
 @app.route("/register_dog")
 def register_dog():
     session["csrf_token"] = secrets.token_hex(16)
     all_classes = dogs.get_all_classes()
-    return render_template("register_dog.html", 
-        sizes=all_classes["sizes"], 
-        temperaments=all_classes["temperaments"], 
+    return render_template("register_dog.html",
+        sizes=all_classes["sizes"],
+        temperaments=all_classes["temperaments"],
         activities=all_classes["activities"])
 
 @app.route("/dogs/")
@@ -116,6 +114,19 @@ def create_register_dog():
     temperament = request.form.get("temperament")
     activity = request.form.get("activity")
 
+    if not dogname or len(dogname) >= 50:
+        flash("VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä")
+        return redirect("/register_dog")
+    if len(breed) >= 50:
+        flash("VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä")
+        return redirect("/register_dog")
+    if int(age) < 0:
+        flash("VIRHE: Ikä ei voi olla negatiivinen.")
+        return redirect("/register_dog")
+    if int(age) >= 35:
+        flash("VIRHE: Tarkista ikä")
+        return redirect("/register_dog")
+
     classes = []
     if size:
         classes.append(("size", size))
@@ -124,38 +135,10 @@ def create_register_dog():
     if activity:
         classes.append(("activity", activity))
 
-        if not dogname or len(dogname) >= 50:
-            flash("VIRHE: Nimi ei voi olla yli 50 merkkiä pitkä")
-            return redirect("/dogs/" + str(dog_id))
-        if len(breed) >= 50:
-            flash("VIRHE: Rotu ei voi olla yli 50 merkkiä pitkä")
-            return redirect("/dogs/" + str(dog_id))
-        if int(age) < 0:
-            flash("VIRHE: Ikä ei voi olla negatiivinen.")
-            return redirect("/dogs/" + str(dog_id))
-        if int(age) >= 35:
-            flash("VIRHE: Tarkista ikä")
-            return redirect("/dogs/" + str(dog_id))
-
-    all_classes = dogs.get_all_classes()
-
-    for entry in classes:
-        title, value = entry
-        if title == "size" and value not in all_classes["sizes"]:
-            print(f"Virheellinen luokka: {title}, arvo: {value}")
-            abort(403)
-        elif title == "temperament" and value not in all_classes["temperaments"]:
-            print(f"Virheellinen luokka: {title}, arvo: {value}")
-            abort(403)
-        elif title == "activity" and value not in all_classes["activities"]:
-            print(f"Virheellinen luokka: {title}, arvo: {value}")
-            abort(403)
-
     dogs.add_dogs(dogname, breed, age, gender, user_id, classes)
 
-    dog_id = db.last_insert_id()
     flash("Koira rekisteröity onnistuneesti.")
-    return redirect("/dogs/" + str(dog_id))
+    return redirect("/")
 
 @app.route('/edit_dog/<int:dog_id>', methods=['GET', 'POST'])
 def edit_dog(dog_id):
@@ -292,13 +275,11 @@ def remove_dog(dog_id):
 
     if request.method == "GET":
         session["csrf_token"] = secrets.token_hex(16)
-    if request.method == "POST":
-        check_csrf()
-        dogs.remove_dog(dog_id)
-        return redirect(url_for('index'))
-    else:
-        dog = dogs.get_dog(dog_id)
         return render_template("remove_dog.html", dog = dog)
+
+    check_csrf()
+    dogs.remove_dog(dog_id)
+    return redirect(url_for('index'))
 
 @app.route("/register")
 def register():
@@ -324,26 +305,24 @@ def create():
         flash("VIRHE: tunnus on jo varattu")
         return render_template("register.html")
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
         session["csrf_token"] = secrets.token_hex(16)
         return render_template("login.html")
 
-    if request.method == "POST":
-        check_csrf()
-        username = request.form["username"]
-        password = request.form["password"]
+    check_csrf()
+    username = request.form["username"]
+    password = request.form["password"]
 
-        user_id = users.check_login(username, password)
-        if user_id:
-            session["user_id"] = user_id
-            session["username"] = username
-            return redirect("/")
-        else:
-            flash("VIRHE: Väärä tunnus tai salasana")
-            return render_template("login.html")
+    user_id = users.check_login(username, password)
+    if user_id:
+        session["user_id"] = user_id
+        session["username"] = username
+        return redirect("/")
+
+    flash("VIRHE: Väärä tunnus tai salasana")
+    return render_template("login.html")
 
 def require_login():
     if "user_id" not in session:

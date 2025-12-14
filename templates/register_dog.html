@@ -42,10 +42,10 @@
                 {% for activity in activities %}
                     <option value="{{ activity }}">{{ activity }}</option>
                 {% endfor %}
+
             </select><br><br>
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Rekisteröi koira">
-    </form>
 <form action="/" method="GET">
     <button type="submit">Peruuta</button>
         </form>

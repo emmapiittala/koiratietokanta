@@ -46,3 +46,22 @@ body {
 text-align: center;
 text-decoration: underline;
 }
+.button-container {
+    display: flex; /* Käytetään flexboxia */
+    gap: 10px; /* Väli nappejen välillä */
+    margin-top: 20px; /* Lisää tilaa nappejen ylle */
+}
+
+.button-container input[type="submit"],
+.button-container button {
+    padding: 0.5em 1em; /* Pehmeyttä ja tilaa napille */
+    background-color: #f0f0f0; /* Taustaväri */
+    border: 1px solid #ccc; /* Kehys */
+    border-radius: 4px; /* Pyöristetyt kulmat */
+    cursor: pointer; /* Muuttaa osoittimen nappia käytettäessä */
+}
+
+.button-container button:hover,
+.button-container input[type="submit"]:hover {
+    background-color: #e0e0e0; /* Taustaväri hover-tilassa */
+}

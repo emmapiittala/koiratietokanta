@@ -1,24 +1,21 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
-import config
-import db
 
-
-def get_user(user_id): 
+def get_user(user_id):
     sql = "SELECT id, username FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
     return result[0] if result else None
 
-def get_register_dogs(user_id): 
-    sql = """SELECT 
-                rd.id AS dog_id, 
-                rd.dogname, 
-                rd.breed, 
-                rd.age, 
-                rd.gender 
-             FROM 
-                register_dog AS rd 
-             WHERE 
+def get_register_dogs(user_id):
+    sql = """SELECT
+                rd.id AS dog_id,
+                rd.dogname,
+                rd.breed,
+                rd.age,
+                rd.gender
+             FROM
+                register_dog AS rd
+             WHERE
                 rd.user_id = ?"""
     result = db.query(sql, [user_id])
     return result
@@ -31,12 +28,14 @@ def create_user(username, password):
 def check_login(username, password):
     sql = "SELECT id, password_hash FROM users WHERE username = ?"
     result = db.query(sql, [username])
+
     if not result:
         return None
 
     user_id = result[0]["id"]
     password_hash = result[0]["password_hash"]
+
     if check_password_hash(password_hash, password):
         return user_id
-    else:
-        return None
+
+    return None
