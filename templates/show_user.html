@@ -5,7 +5,7 @@
 <p>
     Käyttäjä on rekisteröinyt: {{dogs| count}} kpl koiria.
     </p>
-    <h3> Käyttäjän rekisteröidyt koirat: </h3>
+    <h3> Rekisteröidyt koirat: </h3>
     <ul>
         {% for dog in dogs %}
             <li><a href="/dogs/{{ dog.dog_id }}">{{ dog.dogname }}</a></li>

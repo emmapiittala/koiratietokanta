@@ -20,13 +20,13 @@
 <form action="/add_image" method="post" enctype="multipart/form-data">
     <p>
         <label for="image">Kuva:</label>
+        <input type="file" name="image" id="image" accept=".png" required /></br>
         <small><i>Voit lisätä ainoastaan .png - tiedostoja.</i></small>
     </p>
     <input type="hidden" name="dog_id" value="{{ dog.dog_id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
 </form>
-
 <form method="GET" action="{{ url_for('get_dog', dog_id=dog.dog_id) }}">
     <input type="submit" value="Peruuta">
 </form>

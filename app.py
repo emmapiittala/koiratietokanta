@@ -225,17 +225,16 @@ def add_image():
 
     if not file or not file.filename.endswith((".png")):
         flash("VIRHE: Lähettämäsi tiedosto ei ole .png-tiedosto")
-        return redirect("/add_image")
+        return redirect("/images/" + str(dog_id))
 
     image = file.read()
     if len(image) > 100 * 1024:
         flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
-        return redirect("/add_image")
+        return redirect("/images/" + str(dog_id))
 
     dogs.add_image(dog_id, image)
     flash("Kuva tallennettu")
     return redirect("/dogs/" + str(dog_id))
-
 
 @app.route("/remove_images", methods=["POST"])
 def remove_images():
